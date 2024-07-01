@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
+import requests
+import json
 from flask_cors import CORS
+import ollama
 
 app = Flask(__name__)
 CORS(app)
@@ -7,7 +10,6 @@ CORS(app)
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('message').lower()
-    print(user_input)
     #response = ollama.respond(user_input)  # Replace with your chatbot's response function
     response = "Your response here"
     if user_input == "exit":
