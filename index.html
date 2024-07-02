@@ -12,23 +12,24 @@
 <body>
     <h1>Chatbot</h1>
     <div id="app">
-        <div id="chatbox"></div>
+        <div id="chatbox">
+            <div id="response"></div>
+        </div>
         <div id="textcover">
             <input type="text" id="userMessage" placeholder="Type your message here">
             <button onclick="sendMessage()" id="sendButton"><img src="send.png" alt="Send" ,
-            style="width: 20px; height: 20px;" , id="sendIcon"></button>
+                    style="width: 20px; height: 20px;" , id="sendIcon"></button>
         </div>
-        <p id="response"></p>
     </div>
-        <script>
-            // Add event listener for Enter key press
-            document.getElementById('userMessage').addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault(); // Prevent form submission if inside a form
-                    document.getElementById('sendButton').click();
-                }
-            });
-        </script>
+    <script>
+        // Add event listener for Enter key press
+        document.getElementById('userMessage').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission if inside a form
+                document.getElementById('sendButton').click();
+            }
+        });
+    </script>
 </body>
 
 </html>
