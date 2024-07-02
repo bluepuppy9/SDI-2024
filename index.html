@@ -11,13 +11,15 @@
 
 <body>
     <h1>Chatbot</h1>
-        <div id="chatbox">
-            <div id="textcover"></div>
+    <div id="app">
+        <div id="chatbox"></div>
+        <div id="textcover">
             <input type="text" id="userMessage" placeholder="Type your message here">
             <button onclick="sendMessage()" id="sendButton"><img src="send.png" alt="Send" ,
-                    style="width: 20px; height: 20px;" , id="sendIcon"></button>
-            <p id="response"></p>
+            style="width: 20px; height: 20px;" , id="sendIcon"></button>
         </div>
+        <p id="response"></p>
+    </div>
         <script>
             // Add event listener for Enter key press
             document.getElementById('userMessage').addEventListener('keydown', function (event) {

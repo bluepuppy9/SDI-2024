@@ -1,6 +1,6 @@
 * {
-    margin: 0.1%;
-    overflow-x: hidden;
+    margin: 0%;
+    overflow: hidden;
 }
 
 #sendButton {
@@ -20,6 +20,7 @@
 }
 
 #userMessage {
+    display: flex;
     position: absolute;
     border-top-left-radius: 20%;
     border-top-right-radius: 20%;
@@ -84,15 +85,12 @@ h1 {
 
 #textcover {
     display: flex;
-    position: absolute;
     flex-direction: column;
     background-color: #555555;
-    bottom: 0;
     padding: 10px;
     align-self: center;
     width: 100%;
-    height: 150px;
-    margin-bottom: 0;
+    height: 160px;
     z-index: -1;
 }
 
@@ -100,4 +98,8 @@ p {
     font-size: 25px;
     position: relative;
     margin-top: 1px;
+}
+
+#app {
+    height: 100vh;
 }
