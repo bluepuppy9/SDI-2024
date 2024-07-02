@@ -10,7 +10,7 @@ async function sendMessage() {
     });
     const data = await response.json();
     console.log(data);
-    document.getElementById('response').innerHTML += '<p>' + data.response + '</p>';
+    document.getElementById('response').innerHTML += '<p>' + data.response + '</p>' + '<hr>';
     document.getElementById('userMessage').value = '';
 }
 
