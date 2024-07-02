@@ -1,4 +1,5 @@
 async function sendMessage() {
+    triggerAnimation();
     const userMessage = document.getElementById('userMessage').value;
     const response = await fetch('http://localhost:5000/chat', {
         method: 'POST',
@@ -9,6 +10,14 @@ async function sendMessage() {
     });
     const data = await response.json();
     console.log(data);
-    document.getElementById('response').innerHTML = data.response;
+    document.getElementById('response').innerHTML += '<p>' + data.response + '</p>';
     document.getElementById('userMessage').value = '';
+}
+
+function triggerAnimation() {
+    const button = document.getElementById('sendButton');
+    button.classList.add('animate');
+    button.addEventListener('animationend', () => {
+        button.classList.remove('animate');
+    }, { once: true });
 }
