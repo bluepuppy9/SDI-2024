@@ -1,10 +1,17 @@
+* {
+    overflow: hidden;
+}
+
 #sendButton {
     visibility: hidden;
-    display: inline;
-    margin-top: 0.1%;
+    display: flex;
     position: absolute;
     cursor: pointer;
-    scale: 2;
+    scale: 2.3;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 79px;
+    margin-right: 10%;
 }
 
 #sendIcon {
@@ -17,25 +24,21 @@
     border-top-right-radius: 20%;
     border-bottom-left-radius: 20%;
     border-bottom-right-radius: 20%;
-    padding: 5px;
+    padding: 15px;
     box-sizing: border-box;
     width: 80%;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 68px;
+    margin-right: 10%;
 }
-
-#chatbox {
-    border: 1px solid #555555;
-    padding: 10px;
-    height: 800px;
-    overflow-y: scroll;
-}
-
 @keyframes buttonClick {
     0% {
         transform: scale(1);
     }
 
     50% {
-        transform: scale(1.2);
+        transform: scale(1.6);
     }
 
     100% {
@@ -53,52 +56,8 @@ h1 {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-
-#sendButton {
-    visibility: hidden;
-    display: inline;
-    position: absolute;
-    cursor: pointer;
-    scale: 2;
-}
-
 #sendIcon {
     visibility: visible;
-}
-
-#userMessage {
-    position: absolute;
-    border-top-left-radius: 20%;
-    border-top-right-radius: 20%;
-    border-bottom-left-radius: 20%;
-    border-bottom-right-radius: 20%;
-    align-self: center;
-    padding: 5px;
-    box-sizing: border-box;
-    width: 80%;
-}
-
-#chatbox {
-    display: flex;
-    flex-direction: row-reverse;
-    border: 1px solid #555555;
-    padding: 10px;
-    height: 800px;
-    overflow-y: scroll;
-}
-
-@keyframes buttonClick {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
 }
 
 #sendButton.animate {
@@ -106,31 +65,30 @@ h1 {
 }
 
 
-#userMessage {
-    margin-top: 89%;
-    margin-right: 7%;
 
-}
 
-h1 {
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-#sendButton {
-    margin-top: 90%;
-    margin-right: 7%;
-
-}
-
-#container {
+#chatbox {
     display: flex;
-    flex-direction: column-reverse;
-
-}
-
-#container {
-    display: flex;
+    border: 1px solid #555555;
+    overflow-y: scroll;
+    height: 825px;
+    overflow-x: hidden;
     flex-direction: column;
+}
 
+#chatbox > p {
+    margin: 0%;
+}
+
+#textcover {
+    display: flex;
+    background-color: #555555;
+    bottom: 0;
+    padding: 10px;
+    align-self: center;
+    width: 110%;
+    height: 90px;
+    margin-bottom: 45px;
+    margin-left: 40px;
+    transform: translateY(720px);
 }
