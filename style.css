@@ -1,6 +1,6 @@
 * {
-    overflow: hidden;
     margin: 0.1%;
+    overflow-x: hidden;
 }
 
 #sendButton {

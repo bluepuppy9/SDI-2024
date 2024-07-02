@@ -1,6 +1,7 @@
 async function sendMessage() {
     triggerAnimation();
     const userMessage = document.getElementById('userMessage').value;
+    document.getElementById('userMessage').value = '';
     const response = await fetch('http://localhost:5000/chat', {
         method: 'POST',
         headers: {
@@ -10,8 +11,11 @@ async function sendMessage() {
     });
     const data = await response.json();
     console.log(data);
-    document.getElementById('response').innerHTML += '<p>' + data.response + '</p>' + '<hr>';
-    document.getElementById('userMessage').value = '';
+    if(data.response == "") {
+        document.getElementById('response').innerHTML += '<p>' + data.response + '</p>';
+    } else {
+        document.getElementById('response').innerHTML += '<p>' + data.response + '</p>' + '<hr>';
+    }
 }
 
 function triggerAnimation() {
