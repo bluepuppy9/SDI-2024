@@ -3,12 +3,12 @@ import fs from 'fs';
 import ollama from 'ollama';
 
 async function generateText() {
-    //const response = await ollama.generate({
-    //    model: 'llama3', // Specify the model you want to use
-    //    prompt: 'Why is the sky blue?', // Your prompt
-    //});
-    console.log("Hello World!");
-    //console.log(response.text); // Print the generated text
+    const response = await ollama.generate({
+        model: 'llama3', // Specify the model you want to use
+        prompt: 'hi', // Your prompt
+    });
+    //console.log("Hello World!");
+    console.log(response.text); // Print the generated text
 }
 
 generateText();

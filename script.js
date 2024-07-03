@@ -19,7 +19,7 @@ async function sendMessage() {
             console.log(data);
             loadingicon.remove();
             const output = document.getElementById('response');
-            output.innerHTML += '<p id="responseText">' + '</p><hr>';
+            output.innerHTML += '<p id="responseText" class="response">' + '</p><hr>';
             output.appendChild(loadingicon);
             loadingicon.classList.remove('real');
             const responseText = document.getElementById('responseText');
@@ -37,7 +37,8 @@ async function sendMessage() {
                     if (index < words.length) {
                         responseText.textContent += words[index] + ' '; // Append next word
                         index++;
-                        setTimeout(nextWord, 25); // Adjust delay time as needed (300ms here)
+                        setTimeout(nextWord, 25);
+                        document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight; // Adjust delay time as needed (300ms here)
                     }
                 }
 

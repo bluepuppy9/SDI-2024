@@ -123,6 +123,15 @@ p {
     margin-top: 1px;
 }
 
+.response {
+}
+
+#response {
+    background-color: aqua;
+    width: 50%;
+    height: 100%;
+}
+
 #app {
     height: 100vh;
     overflow: hidden;
