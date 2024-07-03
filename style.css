@@ -76,7 +76,7 @@
 }
 
 #loadingIcon.animate.real {
-    animation: loadingSpin 0.4s ease;
+    animation: loadingSpin 0.4s ease infinite;
     visibility: visible;
     position: static;
 }
