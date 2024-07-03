@@ -1,5 +1,6 @@
 * {
     margin: 0%;
+    word-wrap: break-word;
 }
 
 #sendButton {
@@ -21,12 +22,9 @@
 #userMessage {
     display: flex;
     position: absolute;
-    border-top-left-radius: 20%;
-    border-top-right-radius: 20%;
-    border-bottom-left-radius: 20%;
-    border-bottom-right-radius: 20%;
     padding: 20px;
     box-sizing: border-box;
+    border-radius: 10px;
     width: 85%;
     bottom: 0;
     right: 0;
@@ -99,7 +97,7 @@ h1 {
     overflow: scroll;
     height: 700px;
     overflow-x: hidden;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #chatbox>p {
@@ -107,33 +105,50 @@ h1 {
 }
 
 #textcover {
-    display: flex;
-    flex-direction: column;
+    position: absolute;
     background-color: #555555;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 10px;
-    align-self: center;
-    width: 100%;
+    width: 80%;
     height: 160px;
     z-index: -1;
+    border-radius: 20px;
 }
 
 p {
-    font-size: 25px;
-    display: inline;
+    font-size: 22px;
+    display: block;
     margin-top: 1px;
+    width: auto;
 }
 
 .response {
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+#userbubble {
+    display: flex;
+    width: 50%;
+    word-wrap: break-word;
+    flex-direction: column;
 }
 
 #response {
-    background-color: aqua;
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
 }
-
 #app {
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -146,4 +161,13 @@ html {
     height: 50px;
     visibility: hidden;
     position: absolute;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#returnarea {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }

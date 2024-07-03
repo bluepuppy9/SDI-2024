@@ -1,12 +1,16 @@
 async function sendMessage() {
     if (document.getElementById('userMessage').value !== '') {
         if (document.getElementById('free')) {
+            const output = document.getElementById('returnarea');
+            const userBubble = document.getElementById('userbubble');
+            const userMessage = document.getElementById('userMessage').value;
+            output.innerHTML += '<p id="messageplaceholder"class="response" style="visibility: hidden;">' + userMessage + '</p>';
+            userBubble.innerHTML += '<p class="response"">' + userMessage + '</p>';
             document.getElementById('free').setAttribute('id', 'typing');
             var loadingicon = document.getElementById('loadingIcon');
             loadingicon.classList.add('real');
             triggerAnimation();
             loadingAnimation();
-            const userMessage = document.getElementById('userMessage').value;
             document.getElementById('userMessage').value = '';
             const response = await fetch('http://localhost:5000/chat', {
                 method: 'POST',
@@ -18,27 +22,49 @@ async function sendMessage() {
             const data = await response.json();
             console.log(data);
             loadingicon.remove();
-            const output = document.getElementById('response');
-            output.innerHTML += '<p id="responseText" class="response">' + '</p><hr>';
+            //will output the message into the response area but invsibile so it takes up space
+            output.innerHTML += '<p id="responseText" class="response">' + '</p>';
+        
+            userBubble.innerHTML += '<p id="messageplaceholder"class="response" style="visibility: hidden;">' + data.response + '</p>';
             output.appendChild(loadingicon);
             loadingicon.classList.remove('real');
             const responseText = document.getElementById('responseText');
+            //const messageplaceholder = document.getElementById('messageplaceholder');
 
             // Function to output each word with a delay
-            function outputWordByWord(text) {
+            function outputWordByWord(text, placeholder) {
                 // Split text into an array of words
                 let words = text.split(' ');
-
+                let wordsplace = placeholder.split(' ');
                 // Initialize index for looping through words
                 let index = 0;
-
+                indexp = 0;
+                //wordsplacefullsplit = [];
+                //for (let i = 0; i < wordsplace.length; i++) {
+                //    wordsplacefullsplit.push(wordsplace[i].split(''));
+                //}
+                //console.log(wordsplacefullsplit);
                 // Function to output next word with delay
+                //function nextWordplace() {
+                //    if (index < words.length) {
+                //        responseText.textContent += words[index] + ' '; // Append next word
+                //        index++;
+                //        setTimeout(nextWord, 25);
+                //        document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight; // Adjust delay time as needed (300ms here)
+                //    }
+                //}
+//
+                //// Start outputting words
+                //nextWordplace();
+
                 function nextWord() {
                     if (index < words.length) {
                         responseText.textContent += words[index] + ' '; // Append next word
                         index++;
                         setTimeout(nextWord, 25);
                         document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight; // Adjust delay time as needed (300ms here)
+                    } else {
+                        document.getElementById('typing').setAttribute('id', 'free');
                     }
                 }
 
@@ -47,10 +73,10 @@ async function sendMessage() {
             }
 
             // Start outputting response word by word
-            outputWordByWord(data.response);
+            outputWordByWord(data.response, userMessage);
             responseText.setAttribute('id', 'gone');
+            //messageplaceholder.setAttribute('id', 'gone');
             //after typing is done set the title id to free
-            document.getElementById('typing').setAttribute('id', 'free');
         }
     }
 }
@@ -66,5 +92,5 @@ function triggerAnimation() {
 function loadingAnimation() {
     var loadingicon = document.getElementById('loadingIcon');
     loadingicon.classList.add('animate');
-    document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+    //document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
 }
