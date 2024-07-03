@@ -1,5 +1,8 @@
 async function sendMessage() {
+    var loadingicon = document.getElementById('loadingIcon');
+    loadingicon.classList.add('real');
     triggerAnimation();
+    loadingAnimation();
     const userMessage = document.getElementById('userMessage').value;
     document.getElementById('userMessage').value = '';
     const response = await fetch('http://localhost:5000/chat', {
@@ -11,11 +14,15 @@ async function sendMessage() {
     });
     const data = await response.json();
     console.log(data);
-    if(data.response == "") {
-        document.getElementById('response').innerHTML += '<p>' + data.response + '</p>';
+    loadingicon.remove();
+    const output = document.getElementById('response');
+    if (data.response == "") {
+        output.innerHTML += '<p>' + data.response + '</p>';
     } else {
-        document.getElementById('response').innerHTML += '<p>' + data.response + '</p>' + '<hr>';
+        output.innerHTML += '<p>' + data.response + '</p>' + '<hr>';
     }
+    output.appendChild(loadingicon);
+    loadingicon.classList.remove('real');
 }
 
 function triggerAnimation() {
@@ -24,4 +31,10 @@ function triggerAnimation() {
     button.addEventListener('animationend', () => {
         button.classList.remove('animate');
     }, { once: true });
+}
+
+function loadingAnimation() {
+    var loadingicon = document.getElementById('loadingIcon');
+    loadingicon.classList.add('animate');
+    document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
 }

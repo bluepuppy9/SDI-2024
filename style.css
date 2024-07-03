@@ -1,6 +1,5 @@
 * {
     margin: 0%;
-    overflow: hidden;
 }
 
 #sendButton {
@@ -50,10 +49,37 @@
     }
 }
 
+@keyframes loadingSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 #sendButton.animate {
     animation: buttonClick 0.4s ease;
 }
 
+#loadingIcon.animate.real {
+    animation: loadingSpin 0.4s ease;
+    visibility: visible;
+    position: static;
+}
 
 h1 {
     text-align: center;
@@ -64,17 +90,13 @@ h1 {
     visibility: visible;
 }
 
-#sendButton.animate {
-    animation: buttonClick 0.4s ease;
-}
-
 
 
 
 #chatbox {
     display: flex;
     border: 1px solid #555555;
-    overflow-y: scroll;
+    overflow: scroll;
     height: 700px;
     overflow-x: hidden;
     flex-direction: column;
@@ -103,4 +125,16 @@ p {
 
 #app {
     height: 100vh;
+    overflow: hidden;
+}
+
+html {
+    overflow: hidden;
+}
+
+#loadingIcon {
+    width: 50px;
+    height: 50px;
+    visibility: hidden;
+    position: absolute;
 }

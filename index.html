@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
-    <script src="main.js"></script>
+    <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,7 +13,9 @@
     <h1>Chatbot</h1>
     <div id="app">
         <div id="chatbox">
-            <div id="response"></div>
+            <div id="response"><img
+                    src="https://png.pngtree.com/png-vector/20220705/ourmid/pngtree-loading-icon-vector-transparent-png-image_5687537.png"
+                    id="loadingIcon" frameborder="0" class="real"></div>
         </div>
         <div id="textcover">
             <input type="text" id="userMessage" placeholder="Type your message here">
@@ -32,114 +34,6 @@
 
 
     </script>
-    <style>
-        * {
-            margin: 0%;
-            overflow: hidden;
-        }
-
-        #sendButton {
-            visibility: hidden;
-            display: flex;
-            position: absolute;
-            cursor: pointer;
-            scale: 2.5;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 84px;
-            margin-right: 7.7%;
-        }
-
-        #sendIcon {
-            visibility: visible;
-        }
-
-        #userMessage {
-            display: flex;
-            position: absolute;
-            border-top-left-radius: 20%;
-            border-top-right-radius: 20%;
-            border-bottom-left-radius: 20%;
-            border-bottom-right-radius: 20%;
-            padding: 20px;
-            box-sizing: border-box;
-            width: 85%;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 63px;
-            margin-right: 7.5%;
-            font-size: large;
-        }
-
-        @keyframes buttonClick {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.6);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        #sendButton.animate {
-            animation: buttonClick 0.4s ease;
-        }
-
-
-        h1 {
-            text-align: center;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-
-        #sendIcon {
-            visibility: visible;
-        }
-
-        #sendButton.animate {
-            animation: buttonClick 0.4s ease;
-        }
-
-
-
-
-        #chatbox {
-            display: flex;
-            border: 1px solid #555555;
-            overflow-y: scroll;
-            height: 700px;
-            overflow-x: hidden;
-            flex-direction: column;
-        }
-
-        #chatbox>p {
-            margin: 0%;
-        }
-
-        #textcover {
-            display: flex;
-            flex-direction: column;
-            background-color: #555555;
-            padding: 10px;
-            align-self: center;
-            width: 100%;
-            height: 160px;
-            z-index: -1;
-        }
-
-        p {
-            font-size: 25px;
-            display: inline;
-            margin-top: 1px;
-        }
-
-        #app {
-            height: 100vh;
-        }
-    </style>
 </body>
 
 </html>
