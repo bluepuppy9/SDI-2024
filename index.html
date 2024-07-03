@@ -10,7 +10,8 @@
 </head>
 
 <body>
-    <h1>Chatbot</h1>
+    <!--using the title as a global variable(checking what the id is)-->
+    <h1 id="free">Chatbot</h1>
     <div id="app">
         <div id="chatbox">
             <div id="response"><img
@@ -29,6 +30,7 @@
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent form submission if inside a form
                 document.getElementById('sendButton').click();
+
             }
         });
 
