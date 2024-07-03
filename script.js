@@ -92,5 +92,5 @@ function triggerAnimation() {
 function loadingAnimation() {
     var loadingicon = document.getElementById('loadingIcon');
     loadingicon.classList.add('animate');
-    //document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+    document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
 }
