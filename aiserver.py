@@ -12,9 +12,9 @@ CORS(app)
 def chat():
     user_input = request.json.get('message').lower()
     message = ''
-    #for part in generate('llama3', user_input, stream=True):
-    #    message += part['response']
-    return jsonify({'response': f"{user_input} for real"})
-    #return jsonify({'response': message})
+    for part in generate('llama3', user_input, stream=True):
+        message += part['response']
+    #return jsonify({'response': f"{user_input} for real"})
+    return jsonify({'response': message})
 if __name__ == '__main__':
     app.run(debug=True)

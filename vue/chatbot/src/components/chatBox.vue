@@ -1,9 +1,9 @@
 <template>
     <div id="chat">
-        <div v-for="message in userMessages" :key="message" class="userChats">
+        <div v-for="message, index in userMessages" :key="message" class="userChats">
             <p class ="msg">{{message}}</p>
             <div class ="botChats">
-                <p class ="msg">{{currentBotMessage}}</p>
+                <p class ="msg">{{BotMessages[index]}}</p>
             </div>
         </div>
     </div>
@@ -45,35 +45,35 @@ export default {
         const currentBotMessage = computed(() => {
             return BotMessages.value[currentResponseNumber.value];
         })
-        function updateData(message) {
+        async function updateData(message) {
             //console.log(message[0]);
             message[0].toLowerCase();
             userMessages.value.push(message[0]);
             currentResponseNumber.value = message[1];
             BotMessages.value.push('');
-            if(message[0] == 'hi') {
-                outputWordByWord('Hi, I am an AI. Ask me anything!');
-            } else if(message[0] == 'bye') {
-                outputWordByWord('Bye!');
-            } else {
-                outputWordByWord(message[0]);
-            }
+            //if(message[0] == 'hi') {
+            //    outputWordByWord('Hi, I am an AI. Ask me anything!');
+            //} else if(message[0] == 'bye') {
+            //    outputWordByWord('Bye!');
+            //} else {
+            //    outputWordByWord(message[0]);
+            //}
             //console.log(ChatMessages.value);
             //console.log(message)
             // Update the message in the data property
             //send message to chatbox
-            //fetch('http://localhost:5000/chat', {
-            //    method: 'POST',
-            //    headers: {
-            //        'Content-Type': 'application/json'
-            //    },
-            //    body: JSON.stringify({
-            //        message: message
-            //    })
-            //    })
-            //    .then(response => response.json())
-            //    .then(data => console.log(data))
-            //    .catch(error => console.error(error))
+            fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message[0]
+                })
+                })
+                .then(response => response.json())
+                .then(data => outputWordByWord(data.response))
+                .catch(error => console.error(error))
         }
         return {
         userMessages, updateData, BotMessages, currentResponseNumber, currentBotMessage
