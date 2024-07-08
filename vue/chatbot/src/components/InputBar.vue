@@ -2,7 +2,7 @@
     <div>
         <form @submit.prevent="animateSend">
             <input type="text" id="message" v-model="message">
-            <button type="submit" id="submit" @click="!messageSent && message.trim() ? $emit('submitted', [message, chatNumber++]) : null;">
+            <button type="submit" id="submit" @click="message.trim() && !MessageInProgess ? $emit('submitted', [message, chatNumber++], this.message = '') : null;">
                 <img src="https://static.thenounproject.com/png/3553333-200.png" id="sendicon" alt="submit" :class="classname">
             </button>
         </form>
@@ -13,19 +13,19 @@
 import { ref } from 'vue';
 
 export default {
+    props: [
+        'MessageInProgess', 
+    ],
     data() {
         return {
             message: '',
-            messageSent: false,
             classname: 'none',
-            chatNumber: 0
+            chatNumber: 0,
         }
     },
     methods: {
         animateSend() {
-            if(!this.messageSent) {
-                this.message = '';
-                this.messageSent = true;
+            if(this.message.trim()) {
                 this.classname = 'animate';
                 //remove the messagesent false from timeout once ai is put in
                 setTimeout(() => {

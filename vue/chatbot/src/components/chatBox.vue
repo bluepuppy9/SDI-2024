@@ -1,5 +1,5 @@
 <template>
-    <div id="chat">
+    <div id="chat" ref="chat">
         <div v-for="message, index in userMessages" :key="message" class="userChats">
             <p class ="msg">{{message}}</p>
             <div class ="botChats">
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <InputBar id="inputBar" @submitted="updateData" @chatUpdated="console.log('chatUpdated')"/>
+    <InputBar id="inputBar" :MessageInProgess="MessageInProgess" @submitted="updateData" @chatUpdated="console.log('chatUpdated')"/>
     
 </template>
 
@@ -28,29 +28,38 @@ export default {
         const BotMessages = ref([
             
         ]);
+        const MessageInProgess = ref(false);
+        const chat = ref(null);
+        const chatlogUser = ref(null);
+        const chatlogBot = ref('');
         // Function to output each word with a delay
         async function outputWordByWord(text) {
             let words = text.split(' ');
-        
+            chatlogBot.value = text;
             function delay() {
                 return new Promise(resolve => setTimeout(resolve, 25));
             }
+            BotMessages.value.push('');
         
             for (let i = 0; i < words.length; i++) {
                 // Update only the current bot message
                 BotMessages.value[currentResponseNumber.value] += words[i] + ' ';
+                chat.value.scrollTop = chat.value.scrollHeight;
                 await delay();
             }
         }
-        const currentBotMessage = computed(() => {
-            return BotMessages.value[currentResponseNumber.value];
-        })
         async function updateData(message) {
             //console.log(message[0]);
+            MessageInProgess.value = true;
             message[0].toLowerCase();
             userMessages.value.push(message[0]);
+            chat.value.scrollTop = chat.value.scrollHeight;
             currentResponseNumber.value = message[1];
-            BotMessages.value.push('');
+            chatlogUser.value = userMessages.value
+            //check length of user message and bot message and trim if its longer than 10
+            //if (userMessages.value.length > 10) {
+            //    userMessages.value.shift();
+            //}
             //if(message[0] == 'hi') {
             //    outputWordByWord('Hi, I am an AI. Ask me anything!');
             //} else if(message[0] == 'bye') {
@@ -62,21 +71,25 @@ export default {
             //console.log(message)
             // Update the message in the data property
             //send message to chatbox
-            fetch('http://localhost:5000/chat', {
+             const data = await fetch('http://localhost:5000/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    message: message[0]
+                    //send only up to the last 10 user messages
+                    message: 'current message: ' +message[0] + ' | BotMessageLog(you): ' + chatlogBot.value + ' | UserMessageLog: ' + chatlogUser.value + ' | do not give me the logs'
                 })
                 })
                 .then(response => response.json())
                 .then(data => outputWordByWord(data.response))
                 .catch(error => console.error(error))
-        }
+
+            MessageInProgess.value = false;
+            }
         return {
-        userMessages, updateData, BotMessages, currentResponseNumber, currentBotMessage
+        userMessages, updateData, BotMessages, currentResponseNumber, MessageInProgess,
+        chat
         }
     }
 }
@@ -114,6 +127,7 @@ export default {
         margin: 5px;
         width: fit-content;
         max-width: 80%;
+        text-align: left;
     }
 
     .botChats {

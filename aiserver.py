@@ -11,6 +11,7 @@ CORS(app)
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('message').lower()
+    print(user_input)
     message = ''
     for part in generate('llama3', user_input, stream=True):
         message += part['response']
