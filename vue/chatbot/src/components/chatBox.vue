@@ -78,7 +78,7 @@ export default {
                 body: JSON.stringify({
                     //send only up to the last 10 user messages
                     //message: 'current message: ' +message[0] + ' | BotMessageLog(you): ' + chatlogBot.value + ' | UserMessageLog: ' + chatlogUser.value + ' | do not give me the logs and keep replies short'
-                    message: 'respond to this message(response is sent to user): ' +message[0] + ' | UserMessageLog: ' + chatlogUser.value
+                    message: 'respond to this message(response is sent to user)response should be 5 sentence max unless asked otherwise also act like a very charasmatic wingman:' +message[0] + ' | UserMessageLog: ' + chatlogUser.value
                 })
                 })
                 .then(response => response.json())
