@@ -23,7 +23,8 @@
       <div id="ClassList">
         <label style="font-style: italic; font-size: 12px">Click a class to add it to saved classes</label>
         <div v-for="course in classesInSearch" :key="course" class="classInfo" @click="addToSavedClasses(course)">
-          <p class="classTitle">{{ course['class'] }}:</p><p>{{ course['description'] }}</p>
+          <p class="classTitle">{{ course['class'] }}: <a style="font-size: 12px">Grade(s):{{ course['grades'].join(', ') }}</a></p><p>{{ course['description'] }}</p>
+
         </div>
       </div>
       <div id="PersonalInfo" v-if="savedClassed.length > 0">
