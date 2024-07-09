@@ -31,7 +31,7 @@ export default {
         const MessageInProgess = ref(false);
         const chat = ref(null);
         const chatlogUser = ref(null);
-        const chatlogBot = ref('');
+        const chatlogBot = ref('Nothing yet');
         // Function to output each word with a delay
         async function outputWordByWord(text) {
             let words = text.split(' ');
@@ -55,7 +55,6 @@ export default {
             userMessages.value.push(message[0]);
             chat.value.scrollTop = chat.value.scrollHeight;
             currentResponseNumber.value = message[1];
-            chatlogUser.value = userMessages.value
             //check length of user message and bot message and trim if its longer than 10
             //if (userMessages.value.length > 10) {
             //    userMessages.value.shift();
@@ -78,7 +77,8 @@ export default {
                 },
                 body: JSON.stringify({
                     //send only up to the last 10 user messages
-                    message: 'current message: ' +message[0] + ' | BotMessageLog(you): ' + chatlogBot.value + ' | UserMessageLog: ' + chatlogUser.value + ' | do not give me the logs'
+                    //message: 'current message: ' +message[0] + ' | BotMessageLog(you): ' + chatlogBot.value + ' | UserMessageLog: ' + chatlogUser.value + ' | do not give me the logs and keep replies short'
+                    message: 'respond to this message(response is sent to user)response should be 1 sentence max: ' +message[0] + ' | UserMessageLog: ' + chatlogUser.value
                 })
                 })
                 .then(response => response.json())
@@ -86,6 +86,7 @@ export default {
                 .catch(error => console.error(error))
 
             MessageInProgess.value = false;
+            chatlogUser.value = userMessages.value
             }
         return {
         userMessages, updateData, BotMessages, currentResponseNumber, MessageInProgess,
