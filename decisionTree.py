@@ -6,11 +6,13 @@ import numpy as np
 # Sample data (replace this with your actual dataset)
 df = pd.read_csv('survey.csv')
 
+df.columns = ['grade', 'subject', 'learning_pref', 'career', 'group_pref','difficulty', 'Email', 'elective']
+
 # Mapping categorical data to numerical data
 grade_map = {'9th': 0, '10th': 1, '11th': 2, '12th': 3}
 df['grade'] = df['grade'].map(grade_map)
 
-learning_pref_map = {'Practical': 1, 'Theoretical': 0}
+learning_pref_map = {'Practical': 1, 'Theoretical': 0, 'No preference': 2}
 df['learning_pref'] = df['learning_pref'].map(learning_pref_map)
 
 career_map = {
@@ -18,7 +20,7 @@ career_map = {
     'Teaching/Education': 4, 'Marketing': 5, 'Data Science': 6, 
     'Psychology': 7, 'Environmental Science': 8, 'Music Production': 9, 
     'Culinary Arts': 10, 'Engineering(Mechanical, Electrical, Civil, ect...)': 11, 
-    'Graphic Design': 12, 'Movie/Show Production': 13
+    'Graphic Design': 12, 'Movie/Show Production': 13, "Entrepreneur": 14
 }
 
 group_pref_map = {'Group': 0, 'Independent': 1, 'No preference': 2}
@@ -26,13 +28,11 @@ df['group_pref'] = df['group_pref'].map(group_pref_map)
 
 #make electives lowercase
 df['elective'] = df['elective'].str.lower()
-
-elective_map = {'computer science': 0, 
-                'graphic design': 1, 
-                'marketing': 2, 
-                'machine learning': 3,
-                }
-df['elective'] = df['elective'].map(elective_map)
+elective_map = {}
+for i, elective in enumerate(df['elective'].unique()):
+    if elective.lower().replace(' ', '') in ['computerscience', 'graphicdesign', 'marketing', 'machinelearning']:
+        elective_map[elective] = i
+df['elective'] = df['elective'].map(elective_map).fillna(df['elective'])
 
 # Expand rows for multiple careers
 new_df = pd.DataFrame()
@@ -60,7 +60,6 @@ for index, row in df.iterrows():
         new_row['subject'] = subject_map[subject.strip()]
         new_df = new_df._append(new_row, ignore_index=True)
 df = new_df
-print(df)
 
 # Defining features and target
 features = ['subject', 'grade', 'learning_pref', 'career', 'group_pref', 'difficulty']
@@ -77,12 +76,27 @@ dtree.priorities = p
 dtree = dtree.fit(X, y)
 
 reverse_elective_map = {v: k for k, v in elective_map.items()}
+reverse_subject_map = {v: k for k, v in subject_map.items()}
+reverse_career_map = {v: k for k, v in career_map.items()}
+reverse_grade_map = {v: k for k, v in grade_map.items()}
+reverse_group_map = {v: k for k, v in group_pref_map.items()}
+reverse_learning_map = {v: k for k, v in learning_pref_map.items()}
+
 
 # Predict with the trained decision tree
 predicted_classes = dtree.predict_proba(np.array([[0, 3, 0, 5, 0, 8]]))[0]
 top_n_indices = predicted_classes.argsort()[-3:][::-1]  # Top 3 classes
 top_recommended_classes = [reverse_elective_map[dtree.classes_[i]] for i in top_n_indices]
 
+#map all the reverse maps
+df['elective'] = df['elective'].map(reverse_elective_map)
+df['subject'] = df['subject'].map(reverse_subject_map)
+df['career'] = df['career'].map(reverse_career_map)
+df['grade'] = df['grade'].map(reverse_grade_map)
+df['group_pref'] = df['group_pref'].map(reverse_group_map)
+df['learning_pref'] = df['learning_pref'].map(reverse_learning_map)
+
+print(df)
 print("Top 3 Recommended Classes:", top_recommended_classes)
 
 # Visualize the decision tree using matplotlib
