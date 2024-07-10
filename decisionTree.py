@@ -13,14 +13,6 @@ df['grade'] = df['grade'].map(grade_map)
 learning_pref_map = {'Practical': 1, 'Theoretical': 0}
 df['learning_pref'] = df['learning_pref'].map(learning_pref_map)
 
-subject_map = {
-    'Theoretical': 0, 'Science': 1, 'Math': 2, 'Ela': 3, 
-    'Computer Science': 4, 'Robotics': 5, 'History': 6, 
-    'Engineering': 7, 'Art': 8, 'Music': 9, 
-    'Performing Arts': 10, 'Audio Visual (AV)': 11
-}
-df['subject'] = df['subject'].map(subject_map)
-
 career_map = {
     'Law': 0, 'Finance': 1, 'Medicine': 2, 'Software Development': 3, 
     'Teaching/Education': 4, 'Marketing': 5, 'Data Science': 6, 
@@ -28,7 +20,6 @@ career_map = {
     'Culinary Arts': 10, 'Engineering(Mechanical, Electrical, Civil, ect...)': 11, 
     'Graphic Design': 12, 'Movie/Show Production': 13
 }
-df['career'] = df['career'].map(career_map)
 
 group_pref_map = {'Group': 0, 'Independent': 1, 'No preference': 2}
 df['group_pref'] = df['group_pref'].map(group_pref_map)
@@ -42,6 +33,35 @@ elective_map = {'computer science': 0,
                 'machine learning': 3,
                 }
 df['elective'] = df['elective'].map(elective_map)
+
+# Expand rows for multiple careers
+new_df = pd.DataFrame()
+for index, row in df.iterrows():
+    careers = row['career'].split(', ')
+    for career in careers:
+        new_row = row.copy()
+        new_row['career'] = career_map[career.strip()]
+        new_df = new_df._append(new_row, ignore_index=True)
+df = new_df
+print(df)
+
+subject_map = {
+    'Theoretical': 0, 'Science': 1, 'Math': 2, 'Ela': 3, 
+    'Photography/Videography': 4, 'Robotics': 5, 'History': 6, 
+    'Engineering': 7, 'Art': 8, 'Music': 9, 
+    'Performing Arts': 10, 'Audio Visual (AV)': 11
+}
+
+# Expand rows for multiple subjects
+new_df = pd.DataFrame()
+for index, row in df.iterrows():
+    subjects = row['subject'].split(', ')
+    for subject in subjects:
+        new_row = row.copy()
+        new_row['subject'] = subject_map[subject.strip()]
+        new_df = new_df._append(new_row, ignore_index=True)
+df = new_df
+print(df)
 
 # Defining features and target
 features = ['grade', 'subject', 'learning_pref', 'career', 'group_pref', 'difficulty']
@@ -65,3 +85,4 @@ plt.figure(figsize=(20,10))
 plot_tree(dtree, feature_names=features, class_names=list(elective_map.keys()), filled=True)
 plt.savefig("decision_tree.png")  # Save to file
 plt.show()  # Display the plot
+

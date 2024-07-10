@@ -1,12 +1,12 @@
 grade,subject,learning_pref,career,group_pref,difficulty,Email Address,elective
-9th,Computer Science,Practical,Software Development,Group,7,,Computer Science
-9th,Computer Science,Practical,Software Development,Group,7,,Computer Science
-10th,Engineering,Theoretical,Data Science,Independent,8,,Machine Learning
-11th,Ela,Practical,Graphic Design,Group,9,,Graphic Design
-12th,Ela,Practical,Marketing,Group,10,,Marketing
-9th,Math,Practical,Software Development,Group,7,,Computer Science
-10th,Science,Theoretical,Data Science,Independent,8,,Machine Learning
-11th,Ela,Practical,Graphic Design,Group,9,,Graphic Design
-12th,Ela,Practical,Marketing,Group,10,,Marketing
-9th,Ela,Practical,Marketing,Group,10,,Graphic Design
+9th,"Computer Science, Engineering",Practical,"Software Development, Data Science",Group,7,,Computer Science
+10th,"Math, Science",Theoretical,"Data Science, Marketing",Independent,8,,Machine Learning
+11th,Ela,Practical,"Graphic Design, Marketing",Group,9,,Graphic Design
+12th,Ela,Practical,"Marketing, Marketing",Group,10,,Marketing
+9th,"Math, Science",Practical,Software Development,Group,7,,Computer Science
+10th,"Math, Science",Theoretical,"Data Science, Marketing",Independent,8,,Machine Learning
+11th,Ela,Practical,"Graphic Design, Marketing",Group,9,,Graphic Design
+12th,Ela,Practical,"Marketing, Marketing",Group,10,,Marketing
+9th,"Math, Science",Practical,"Marketing, Graphic Design",Group,10,,Graphic Design
+
 
