@@ -1,95 +1,67 @@
-#import json
-## Natural language processing example
-#import nltk
-#from nltk.tokenize import word_tokenize
-#from nltk.corpus import stopwords
-#from nltk.stem import WordNetLemmatizer
-#
-## Load the data
-#with open('classes.json', 'r', encoding='utf-8') as f:
-#    data = json.load(f)
-#
-#def filter_classes(data, difficulty=None, grades=None, subject=None):
-#    filtered_classes = []
-#    print(difficulty, grades, subject)
-#    for category, details in data.items():
-#        for course in details:
-#            if difficulty is not None and course['difficulty'] != difficulty:
-#                continue
-#            if grades is not None and not any(grade in grades for grade in course['grades']):
-#                continue
-#            if subject is not None and not any(sub.lower() in course['subject'].lower() for sub in subject):
-#                continue
-#            filtered_classes.append(course)
-#
-#    return filtered_classes
-#
-##User preferences
-##
-### Filter classes
-##filtered_classes = filter_classes(data, grades=user_preferences['grades'], subject=user_preferences['subject'])
-##for cls in filtered_classes:
-##    print(f'{cls["class"]}: {cls["description"]}')
-##    print(f'Grades: {cls["grades"]}')
-##    print(f'Difficulty: {cls["difficulty"]}')
-##    print(f'Subject: {cls["subject"]}')
-#
-#
-#def extract_preferences(text):
-#    tokens = word_tokenize(text)
-#    filtered_tokens = [token.lower() for token in tokens if token.isalpha() and token.lower() not in stopwords.words('english')]
-#    lemmatizer = WordNetLemmatizer()
-#    lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]
-#    grades = [int(token) for token in tokens if token.isdigit()]
-#    subject = [token for token in lemmatized_tokens if token.lower() in ['math', 'science', 'ela', 'history', 'russian', 'career and Technical', 'performing arts', 'physical education']]
-#    return {'grades': grades, 'subject': subject}
-#
-#example_text = input("Enter your preferences: ")
-#user_preferences = extract_preferences(example_text)
-#for item in user_preferences:
-#    if item=='grades':
-#        if user_preferences[item] == []:
-#            user_preferences[item] = None
-#    if item=='subject':
-#        if user_preferences[item] == []:
-#            user_preferences[item] = None
-#filtered_classes = filter_classes(data,grades=user_preferences['grades'], subject=user_preferences['subject'])
-#for cls in filtered_classes:
-#    print(f'{cls["class"]}: {cls["grades"]}', cls["difficulty"], cls["subject"])
-
 import pandas as pd
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn import preprocessing
 
-# create data
-people = 10000
-classes = 10
-grades = ['9', '10', '11', '12']
-difficulties = ['1', '2', '3', '4', '5']
-fields = ['Math', 'Science', 'ELA', 'History', 'Russian', 'Career and Technical', 'Performing Arts', 'Physical Education']
+# Sample data (replace this with your actual dataset)
+df = pd.read_csv('survey.csv')
 
+# Mapping categorical data to numerical data
+grade_map = {'9th': 0, '10th': 1, '11th': 2, '12th': 3}
+df['grade'] = df['grade'].map(grade_map)
 
-data = pd.DataFrame({'Grade': np.random.choice(grades, size=people),
-                     'Difficulty': np.random.choice(difficulties, size=people),
-                     'Field': np.random.choice(fields, size=people),
-                     'Accepted': np.random.choice([True, False], size=people)})
+learning_pref_map = {'Practical': 1, 'Theoretical': 0}
+df['learning_pref'] = df['learning_pref'].map(learning_pref_map)
 
-# preprocess categorical data
-le = preprocessing.LabelEncoder()
-data['Grade'] = le.fit_transform(data['Grade'])
-data['Difficulty'] = le.fit_transform(data['Difficulty'])
-data['Field'] = le.fit_transform(data['Field'])
+subject_map = {
+    'Theoretical': 0, 'Science': 1, 'Math': 2, 'Ela': 3, 
+    'Computer Science': 4, 'Robotics': 5, 'History': 6, 
+    'Engineering': 7, 'Art': 8, 'Music': 9, 
+    'Performing Arts': 10, 'Audio Visual (AV)': 11
+}
+df['subject'] = df['subject'].map(subject_map)
 
-# split data into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(data[['Grade', 'Difficulty', 'Field']], data['Accepted'], test_size=0.2, random_state=42)
+career_map = {
+    'Law': 0, 'Finance': 1, 'Medicine': 2, 'Software Development': 3, 
+    'Teaching/Education': 4, 'Marketing': 5, 'Data Science': 6, 
+    'Psychology': 7, 'Environmental Science': 8, 'Music Production': 9, 
+    'Culinary Arts': 10, 'Engineering(Mechanical, Electrical, Civil, ect...)': 11, 
+    'Graphic Design': 12, 'Movie/Show Production': 13
+}
+df['career'] = df['career'].map(career_map)
 
-# create and train decision tree classifier
-clf = DecisionTreeClassifier()
-clf.fit(X_train, y_train)
+group_pref_map = {'Group': 0, 'Independent': 1, 'No preference': 2}
+df['group_pref'] = df['group_pref'].map(group_pref_map)
 
-# make a prediction
-prediction = clf.predict([[9, 3, 6]]) # someone in 10th grade who wants a class that is moderately hard and in the field of science
+#make electives lowercase
+df['elective'] = df['elective'].str.lower()
 
-print(f'This person might want to apply to class {le.inverse_transform(prediction)[0] + 1}')
+elective_map = {'computer science': 0, 
+                'graphic design': 1, 
+                'marketing': 2, 
+                'machine learning': 3,
+                }
+df['elective'] = df['elective'].map(elective_map)
+
+# Defining features and target
+features = ['grade', 'subject', 'learning_pref', 'career', 'group_pref', 'difficulty']
+target = 'elective'
+
+X = df[features]
+y = df[target]
+
+# Train the decision tree
+dtree = DecisionTreeClassifier()
+dtree = dtree.fit(X, y)
+
+# Predict with the trained decision tree
+predicted_classes = dtree.predict_proba(np.array([[0, 3, 0, 5, 0, 8]]))[0]
+top_n_indices = predicted_classes.argsort()[-3:][::-1]  # Top 3 classes
+top_recommended_classes = [dtree.classes_[i] for i in top_n_indices]
+print("Top 3 Recommended Classes:", top_recommended_classes)
+
+# Visualize the decision tree using matplotlib
+plt.figure(figsize=(20,10))
+plot_tree(dtree, feature_names=features, class_names=list(elective_map.keys()), filled=True)
+plt.savefig("decision_tree.png")  # Save to file
+plt.show()  # Display the plot
