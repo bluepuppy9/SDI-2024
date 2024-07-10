@@ -43,7 +43,6 @@ for index, row in df.iterrows():
         new_row['career'] = career_map[career.strip()]
         new_df = new_df._append(new_row, ignore_index=True)
 df = new_df
-print(df)
 
 subject_map = {
     'Theoretical': 0, 'Science': 1, 'Math': 2, 'Ela': 3, 
@@ -64,20 +63,26 @@ df = new_df
 print(df)
 
 # Defining features and target
-features = ['grade', 'subject', 'learning_pref', 'career', 'group_pref', 'difficulty']
+features = ['subject', 'grade', 'learning_pref', 'career', 'group_pref', 'difficulty']
 target = 'elective'
 
 X = df[features]
 y = df[target]
 
-# Train the decision tree
+p = [0, 1, 2, 3, 4, 5]
+
+# Train the decision tree with priorities
 dtree = DecisionTreeClassifier()
+dtree.priorities = p
 dtree = dtree.fit(X, y)
+
+reverse_elective_map = {v: k for k, v in elective_map.items()}
 
 # Predict with the trained decision tree
 predicted_classes = dtree.predict_proba(np.array([[0, 3, 0, 5, 0, 8]]))[0]
 top_n_indices = predicted_classes.argsort()[-3:][::-1]  # Top 3 classes
-top_recommended_classes = [dtree.classes_[i] for i in top_n_indices]
+top_recommended_classes = [reverse_elective_map[dtree.classes_[i]] for i in top_n_indices]
+
 print("Top 3 Recommended Classes:", top_recommended_classes)
 
 # Visualize the decision tree using matplotlib
@@ -85,4 +90,5 @@ plt.figure(figsize=(20,10))
 plot_tree(dtree, feature_names=features, class_names=list(elective_map.keys()), filled=True)
 plt.savefig("decision_tree.png")  # Save to file
 plt.show()  # Display the plot
+
 
