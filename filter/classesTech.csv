@@ -1,0 +1,61 @@
+class,subject,grades
+AP English Language & Composition,English,11
+AP English Literature & Composition,English,12
+Modern Mythology: Gods & Monsters,English,12
+Creative Writing,English,12
+Publications ,English,12
+Public Speaking,English,12
+AP Calculus AB,Math,12
+AP Calculus BC,Math,"11, 12"
+AP Statistics,Math,12
+Multivariable Calculus,Math,12
+AP Biology,Science,"11, 12"
+AP Chemistry,Science,"11, 12"
+AP Physics 1,Science,"10, 11, 12"
+AP Physics 2,Science,"11, 12"
+AP Physics C: Electricity and Magnetism,Science,12
+AP Environmental Science,Science,"11, 12"
+AP Psychology,Science,"11, 12"
+Forensic Science,Science,"11, 12"
+Biotechnology,Science,12
+Human Anatomy & Physiology,Science,12
+Applied Physics,Science,"11, 12"
+Physics In Medicine,Science,10
+AP US Government & Politics,History,12
+AP Macroeconomics,History,12
+Behavioral & Social Science Class,History,"11, 12"
+Intro to AV Engineering & TV Studio,Technology,9
+Computer Science,Technology,9
+C.A.D. / Civil Engineering & Architecture,Technology,"10, 11"
+Electronics & Green Technology,Technology,"10, 11, 12"
+Adv. C.A.D. Civil Engineering & Architecture,Technology,"11, 12"
+Fundamentals of Engineering,Technology,"11, 12"
+Design & Fabrication (Makerspace),Technology,"10, 11, 12"
+AP Computer Science Principles,Technology,"10, 11, 12"
+Advanced Computer Applications & Development,Technology,"11, 12"
+Adv. AV Engineering & TV Studio 1,Technology,"10, 11, 12"
+Adv. AV Engineering & TV Studio 2/3,Technology,"11, 12"
+Career Financial Management & Entrepreneurship,Career,"10, 11, 12"
+Work Based Learning 1,Career,"11, 12"
+Work Based Learning 2,Career,12
+Advanced Russian,Russian,"10, 11"
+College Russian,Russian,12
+Russian for Business,Russian,12
+Freshmen Band,Performing Arts,9
+Concert Bands,Performing Arts,10
+Symphonic Band,Performing Arts,"11, 12"
+Wind Ensemble,Performing Arts,"10, 11, 12"
+Jazz Ensemble,Performing Arts,"9, 10, 11, 12"
+String Ensemble,Performing Arts,"9, 10, 11, 12"
+Marching Band,Performing Arts,"10, 11, 12"
+Chamber Music,Performing Arts,"9, 10, 11, 12"
+Theater Production,Performing Arts,"11, 12"
+Fitness,Physical Education,"10, 11, 12"
+Basketball,Physical Education,"10, 11, 12"
+Badminton,Physical Education,"10, 11, 12"
+Dance,Physical Education,"10, 11, 12"
+Table Tennis,Physical Education,"10, 11, 12"
+Volleyball,Physical Education,"10, 11, 12"
+Volleyball Advanced,Physical Education,"10, 11, 12"
+Weight Training,Physical Education,"10, 11, 12"
+Team Physical Education,Physical Education,"10, 11, 12"

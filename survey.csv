@@ -1,12 +1,51 @@
-grade,subject,learning_pref,career,group_pref,difficulty,Email Address,elective
-9th,Engineering,Practical,"Software Development, Data Science",Group,7,,Computer Science
-10th,"Math, Science",Theoretical,"Data Science, Marketing",Independent,8,,Machine Learning
-11th,Ela,Practical,"Graphic Design, Marketing",Group,9,,Graphic Design
-12th,Ela,Practical,"Marketing, Marketing",Group,10,,Marketing
-9th,"Math, Science",Practical,Software Development,Group,7,,Computer Science
-10th,"Math, Science",Theoretical,"Data Science, Marketing",Independent,8,,Machine Learning
-11th,Ela,Practical,"Graphic Design, Marketing",Group,9,,Graphic Design
-12th,Ela,Practical,"Marketing, Marketing",Group,10,,Marketing
-9th,"Math, Science",Practical,"Marketing, Graphic Design",Group,10,,Graphic Design
-
-
+Timestamp,grade,subject,Do you prefer learning theoretically (conceptual) or practically (hands-on)?,Which of the following career paths (if any) are you most inclined to pursue?,Do you prefer working on group projects or individual projects?,On a scale of 1 to 10 how challenging do you like your classes to be?,The big question... What was your favorite ELECTIVE class from this past year!!!,Email Address
+7/10/2024 8:56:49,9th,Math,Practical,"Software Development, Engineering",Group,8,computer science,
+7/10/2024 8:59:44,9th,"Robotics, Engineering",Practical,"Software Development, Data Science, Graphic Design",Group,7,computer science,
+7/10/2024 9:00:19,9th,Robotics,Practical,Engineering,No preference,1,band,
+7/10/2024 9:01:45,9th,Photography/Videography,Practical,Marketing,Group,6,AV,
+7/10/2024 9:02:33,9th,Science,Practical,Medicine,No preference,7,computer science,
+7/10/2024 9:10:38,9th,"Science, Math",Practical,"Software Development, Data Science, Engineering",Individual,8,Business,
+7/10/2024 9:11:56,9th,"Math, Art",Practical,"Finance, Marketing",Group,7,Computer Science,
+7/10/2024 9:24:01,9th,"Robotics, History, Engineering",Theoretical,"Finance, Software Development, Data Science, Engineering",Individual,8,Computer Science,
+7/10/2024 9:32:19,11th,"Science, Math, Engineering",Practical,"Finance, Software Development, Marketing",No preference,8,Physics B2,
+7/10/2024 9:53:56,10th,"Music, Photography/Videography",Theoretical,"Graphic Design, Movie/Show Production",No preference,1,Film,
+7/10/2024 11:51:46,12th,"Science, Math, Robotics, Engineering",Practical,Engineering,No preference,9,Physics C,
+7/10/2024 11:52:01,10th,"Science, Robotics, Engineering, Music, Performing Arts",Practical,"Engineering, Graphic Design",Individual,8,Band,
+7/10/2024 11:52:02,9th,"Science, Math, Robotics, Art",Practical,"Finance, Medicine, Marketing",Group,5,Engineering,
+7/10/2024 11:52:06,10th,"Science, Robotics, Engineering",Practical,"Law, Engineering",Group,7,Robotics,
+7/10/2024 11:52:18,10th,"Science, Math, Robotics, History, Engineering, Music",Practical,"Software Development, Data Science, Music Production, Engineering",Individual,8,AP comp sci,
+7/10/2024 11:52:25,11th,"Science, Math, Engineering",Theoretical,"Medicine, Engineering",Individual,8,Fundamentals of Engineering,
+7/10/2024 11:52:29,9th,Engineering,Practical,Engineering,No preference,8,Engineering ,
+7/10/2024 11:52:36,11th,"Science, Math, Robotics, Engineering, Photography/Videography",Theoretical,"Software Development, Engineering",Individual,8,Fundamentals of Engineering,
+7/10/2024 11:52:40,9th,"Science, Engineering",Practical,"Law, Psychology, Environmental Science, Engineering, Graphic Design",Group,8,Engineering ,
+7/10/2024 11:52:57,9th,"Math, Robotics, History, Engineering, Art, Music, Photography/Videography",Practical,"Law, Marketing, Psychology, Engineering",Group,5,AV,
+7/10/2024 11:52:57,9th,"Science, Robotics, Engineering, Music",Practical,"Law, Medicine, Software Development",No preference,5,ENGINEERING ,
+7/10/2024 11:53:26,11th,"Math, Engineering",Theoretical,"Software Development, Engineering",No preference,7,Chinese,
+7/10/2024 11:53:57,10th,"Science, Math, Engineering, Music, Photography/Videography",Practical,"Software Development, Marketing, Data Science, Engineering",No preference,6,computer Science,
+7/10/2024 11:55:53,9th,"Math, History, Engineering, Art, Music",Practical,"Law, Finance, Culinary Arts, Graphic Design",No preference,7,wind Ensemble,
+7/10/2024 11:58:37,9th,"Science, Math, History, Art",Practical,"Law, Finance, Culinary Arts, Graphic Design",No preference,7, Wind Ensemble,
+7/10/2024 11:59:32,12th,"Science, Math, Engineering, Photography/Videography",Theoretical,"Music Production, Engineering, Movie/Show Production",Group,7,Fundamentals of Engineering,
+7/10/2024 14:21:55,9th,"Robotics, History, Engineering",Practical,"Software Development, Marketing, Engineering, Entrepreneur",No preference,6,AP Java ,jordanc412@nycstudents.net
+7/10/2024 15:01:09,11th,"Science, Robotics, Engineering",Practical,"Medicine, Engineering, Entrepreneur",Group,8,Ap comp sci js,ashtong19@nycstudents.net
+7/10/2024 19:07:05,11th,"Math, Art, Photography/Videography",Practical,"Medicine, Software Development, Engineering, Entrepreneur",Individual,7,Spanish foreign Language ,fatiman25@nycstudents.net
+7/10/2024 19:20:50,9th,"Science, Math, Robotics, Engineering",Practical,"Psychology, Engineering",No preference,8,I don’t go to tech! ,apheliyaa@nycstudents.net
+7/11/2024 8:03:38,11th,"Science, Math, Engineering",Practical,Engineering,No preference,8,Never had an elective before,maximusl6@nycstudents.net
+7/11/2024 8:04:44,11th,"Engineering, Art, Photography/Videography",Theoretical,"Engineering, Graphic Design",Group,7,Photoshop ,maggiep6@nycstudents.net
+7/11/2024 8:06:30,10th,"Science, Math",Practical,Software Development,No preference,8,AP Javascript,constantinen3@nycstudents.net
+7/11/2024 8:07:34,9th,"Science, Engineering, Music",Practical,"Finance, Medicine, Engineering, Entrepreneur",Group,7,Band,anthonyc1043@nycstudents.net
+7/11/2024 8:08:14,11th,"History, Engineering, Photography/Videography",Practical,Engineering,No preference,6,ADV AV 2,derekn14@nycstudents.net
+7/11/2024 8:08:14,10th,"Ela, Art, Photography/Videography",Practical,"Medicine, Teaching/Education, Psychology, Culinary Arts, Graphic Design, Movie/Show Production",No preference,4,Fashion,kaleat2@nycstudents.net
+7/11/2024 8:08:19,11th,"Science, Math, Robotics, History, Engineering",Practical,Engineering,No preference,5,AP US History,kieranw2@nycstudents.net
+7/11/2024 8:08:40,11th,"Science, Robotics, Engineering, Music",Practical,Engineering,No preference,8,Electronics GreenTech,jeffreyz62@nycstudents.net
+7/11/2024 8:08:44,10th,"Science, Math, Robotics, Engineering",Theoretical,"Software Development, Engineering",Individual,8,AP photography ,saadw@nycstudents.net
+7/11/2024 8:08:51,12th,"Ela, History, Engineering, Photography/Videography",Practical,"Engineering, Entrepreneur",Group,8,AP Comparative Government,amanyk@nycstudents.net
+7/11/2024 8:08:54,11th,"Science, Math, Engineering",Theoretical,"Engineering, Graphic Design",No preference,5,AP Physics 2,phoebel18@nycstudents.net
+7/11/2024 8:08:58,11th,"Ela, Engineering, Music",Practical,"Marketing, Engineering",No preference,8,Band,sophiel29@nycstudents.net
+7/11/2024 8:09:01,11th,"Math, Engineering, Performing Arts",Practical,"Teaching/Education, Engineering, Graphic Design",No preference,8,Ap Computer Science Python,patrickl89@nycstudents.net
+7/11/2024 8:09:45,10th,"Ela, History, Engineering, Photography/Videography",Theoretical,"Software Development, Psychology, Engineering",Individual,6,CAD,sophiac181@nycstudents.net
+7/11/2024 8:09:50,10th,"Science, Math, Robotics, Engineering",Theoretical,Engineering,No preference,7,AP Physics 1,seand154@nycstudents.net
+7/11/2024 8:10:08,10th,"Science, Math, Ela, Engineering",Theoretical,Engineering,Individual,6,Physics in Medicine,vanessas128@nycstudents.net
+7/11/2024 8:12:07,11th,"Science, Math, Engineering",Practical,Engineering,Group,7,Advanced CAD,kodyn@nycstudents.net
+7/11/2024 8:13:46,11th,Math,Practical,"Finance, Marketing",Group,6,CAD,jasons2789@nycstudents.net
+7/11/2024 8:40:27,9th,"Math, History, Engineering, Art",Practical,"Law, Finance, Culinary Arts, Graphic Design",No preference,7, Wind Ensemble,warrenl17@nycstudents.net
+7/11/2024 9:18:02,11th,"Science, Math, Ela, Engineering",Practical,Finance,Group,8,ap physics 1,michaelc952@nycstudents.net
