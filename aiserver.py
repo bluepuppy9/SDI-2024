@@ -93,108 +93,110 @@ def check_group_work(text: str) -> str:
     for keyword in not_group_keywords:
         if re.search(rf'\b{re.escape(keyword)}\b', text, re.IGNORECASE):
             return "no"
-    return "no_preference"
+    return "unknown"
 
 # Example subjects list with keywords and abbreviations
 
 # Example input text
-def check():
-    classes = [
-    {'name': 'AP English (Language or Literature) & Composition', 'keywords': ['AP English', 'AP English Language', 'AP English Literature', 'AP Lang', 'AP Lit']},
-    {'name': 'AP Calculus (AB or BC)', 'keywords': ['AP Calculus', 'AP Calc AB', 'AP Calc BC']},
-    {'name': 'AP Statistics', 'keywords': ['AP Statistics', 'AP Stats']},
-    {'name': 'AP Biology', 'keywords': ['AP Biology', 'AP Bio']},
-    {'name': 'AP Chemistry', 'keywords': ['AP Chemistry', 'AP Chem']},
-    {'name': 'AP Physics (1, 2 or C)', 'keywords': ['AP Physics', 'AP Physics 1', 'AP Physics 2', 'AP Physics C']},
-    {'name': 'AP Environmental Science', 'keywords': ['AP Environmental Science', 'AP Enviro Sci']},
-    {'name': 'AP Psychology', 'keywords': ['AP Psychology', 'AP Psych']},
-    {'name': 'AP US Government & Politics', 'keywords': ['AP US Government', 'AP US Gov', 'AP Gov & Pol']},
-    {'name': 'AP Macroeconomics', 'keywords': ['AP Macroeconomics', 'AP Macro']},
-    {'name': 'AP Computer Science Principles', 'keywords': ['AP Computer Science Principles', 'AP Comp Sci', 'AP Comp Sci Principles']},
-    {'name': 'Adv. C.A.D. Civil Engineering & Architecture', 'keywords': ['Advanced CAD', 'Advanced CAD Civil Engineering', 'Advanced CAD Architecture']},
-    {'name': 'Advanced Computer Applications & Development', 'keywords': ['Advanced Computer Applications', 'Advanced Computer Development']},
-    {'name': 'Adv. AV Engineering & TV Studio (1 through 3)', 'keywords': ['Advanced AV Engineering', 'Advanced TV Studio']},
-    {'name': 'Advanced Russian', 'keywords': ['Advanced Russian']},
-    {'name': 'Applied Physics', 'keywords': ['Applied Physics']},
-    {'name': 'Behavioral & Social Science Class', 'keywords': ['Behavioral Science', 'Social Science']},
-    {'name': 'Biotechnology', 'keywords': ['Biotechnology', 'BioTech']},
-    {'name': 'Creative Writing', 'keywords': ['Creative Writing']},
-    {'name': 'Computer Science & Engineering', 'keywords': ['Computer Science', 'Computer Engineering', 'Comp Sci']},
-    {'name': 'C.A.D / Civil Engineering & Architecture', 'keywords': ['CAD Civil Engineering', 'CAD Architecture']},
-    {'name': 'Career Financial Management & Entrepreneurship', 'keywords': ['Career Financial Management', 'Entrepreneurship']},
-    {'name': 'College Russian', 'keywords': ['College Russian']},
-    {'name': 'Concert Bands', 'keywords': ['Concert Bands']},
-    {'name': 'Chamber Music', 'keywords': ['Chamber Music']},
-    {'name': 'Design & Fabrication (Makerspace)', 'keywords': ['Design and Fabrication', 'Makerspace']},
-    {'name': 'Electronics & Green Technology', 'keywords': ['Electronics and Green Technology']},
-    {'name': 'Forensic Science', 'keywords': ['Forensic Science', 'Forensics']},
-    {'name': 'Fundamentals of Engineering', 'keywords': ['Fundamentals of Engineering']},
-    {'name': 'Freshmen Band', 'keywords': ['Freshmen Band']},
-    {'name': 'Human Anatomy & Physiology', 'keywords': ['Human Anatomy', 'Physiology']},
-    {'name': 'Intro to AV Engineering & TV Studio', 'keywords': ['Intro to AV Engineering', 'Intro to TV Studio']},
-    {'name': 'Jazz Ensemble', 'keywords': ['Jazz Ensemble']},
-    {'name': 'Modern Mythology: Gods & Monsters', 'keywords': ['Modern Mythology', 'Gods and Monsters']},
-    {'name': 'Multivariable Calculus', 'keywords': ['Multivariable Calculus']},
-    {'name': 'Marching Band', 'keywords': ['Marching Band']},
-    {'name': 'Publications', 'keywords': ['Publications']},
-    {'name': 'Public Speaking', 'keywords': ['Public Speaking']},
-    {'name': 'Russian for Business', 'keywords': ['Russian for Business']},
-    {'name': 'String Ensemble', 'keywords': ['String Ensemble']},
-    {'name': 'Symphonic Band', 'keywords': ['Symphonic Band']},
-    {'name': 'Theater Production', 'keywords': ['Theater Production']},
-    {'name': 'Wind Ensemble', 'keywords': ['Wind Ensemble', 'Band']},
-    {'name': 'Work Based Learning (1 or 2)', 'keywords': ['Work Based Learning']}
+classes = [
+{'name': 'AP English (Language or Literature) & Composition', 'keywords': ['AP English', 'AP English Language', 'AP English Literature', 'AP Lang', 'AP Lit']},
+{'name': 'AP Calculus (AB or BC)', 'keywords': ['AP Calculus', 'AP Calc AB', 'AP Calc BC']},
+{'name': 'AP Statistics', 'keywords': ['AP Statistics', 'AP Stats']},
+{'name': 'AP Biology', 'keywords': ['AP Biology', 'AP Bio']},
+{'name': 'AP Chemistry', 'keywords': ['AP Chemistry', 'AP Chem']},
+{'name': 'AP Physics (1, 2 or C)', 'keywords': ['AP Physics', 'AP Physics 1', 'AP Physics 2', 'AP Physics C']},
+{'name': 'AP Environmental Science', 'keywords': ['AP Environmental Science', 'AP Enviro Sci']},
+{'name': 'AP Psychology', 'keywords': ['AP Psychology', 'AP Psych']},
+{'name': 'AP US Government & Politics', 'keywords': ['AP US Government', 'AP US Gov', 'AP Gov & Pol']},
+{'name': 'AP Macroeconomics', 'keywords': ['AP Macroeconomics', 'AP Macro']},
+{'name': 'AP Computer Science Principles', 'keywords': ['AP Computer Science Principles', 'AP Comp Sci', 'AP Comp Sci Principles']},
+{'name': 'Adv. C.A.D. Civil Engineering & Architecture', 'keywords': ['Advanced CAD', 'Advanced CAD Civil Engineering', 'Advanced CAD Architecture']},
+{'name': 'Advanced Computer Applications & Development', 'keywords': ['Advanced Computer Applications', 'Advanced Computer Development']},
+{'name': 'Adv. AV Engineering & TV Studio (1 through 3)', 'keywords': ['Advanced AV Engineering', 'Advanced TV Studio', 'av', 'into to av']},
+{'name': 'Advanced Russian', 'keywords': ['Advanced Russian']},
+{'name': 'Applied Physics', 'keywords': ['Applied Physics']},
+{'name': 'Behavioral & Social Science Class', 'keywords': ['Behavioral Science', 'Social Science']},
+{'name': 'Biotechnology', 'keywords': ['Biotechnology', 'BioTech']},
+{'name': 'Creative Writing', 'keywords': ['Creative Writing']},
+{'name': 'Computer Science & Engineering', 'keywords': ['Computer Science', 'Computer Engineering', 'Comp Sci']},
+{'name': 'C.A.D / Civil Engineering & Architecture', 'keywords': ['CAD Civil Engineering', 'CAD Architecture']},
+{'name': 'Career Financial Management & Entrepreneurship', 'keywords': ['Career Financial Management', 'Entrepreneurship']},
+{'name': 'College Russian', 'keywords': ['College Russian']},
+{'name': 'Concert Bands', 'keywords': ['Concert Bands']},
+{'name': 'Chamber Music', 'keywords': ['Chamber Music']},
+{'name': 'Design & Fabrication (Makerspace)', 'keywords': ['Design and Fabrication', 'Makerspace']},
+{'name': 'Electronics & Green Technology', 'keywords': ['Electronics and Green Technology']},
+{'name': 'Forensic Science', 'keywords': ['Forensic Science', 'Forensics']},
+{'name': 'Fundamentals of Engineering', 'keywords': ['Fundamentals of Engineering']},
+{'name': 'Freshmen Band', 'keywords': ['Freshmen Band']},
+{'name': 'Human Anatomy & Physiology', 'keywords': ['Human Anatomy', 'Physiology']},
+{'name': 'Intro to AV Engineering & TV Studio', 'keywords': ['Intro to AV Engineering', 'Intro to TV Studio']},
+{'name': 'Jazz Ensemble', 'keywords': ['Jazz Ensemble']},
+{'name': 'Modern Mythology: Gods & Monsters', 'keywords': ['Modern Mythology', 'Gods and Monsters']},
+{'name': 'Multivariable Calculus', 'keywords': ['Multivariable Calculus']},
+{'name': 'Marching Band', 'keywords': ['Marching Band']},
+{'name': 'Publications', 'keywords': ['Publications']},
+{'name': 'Public Speaking', 'keywords': ['Public Speaking']},
+{'name': 'Russian for Business', 'keywords': ['Russian for Business']},
+{'name': 'String Ensemble', 'keywords': ['String Ensemble']},
+{'name': 'Symphonic Band', 'keywords': ['Symphonic Band']},
+{'name': 'Theater Production', 'keywords': ['Theater Production']},
+{'name': 'Wind Ensemble', 'keywords': ['Wind Ensemble', 'Band']},
+{'name': 'Work Based Learning (1 or 2)', 'keywords': ['Work Based Learning']}
 ]
-    subjects = [
-    {'name': 'Science', 'keywords': ['science', 'biology', 'chemistry', 'physics', 'environmental science', 'forensic science', 'biotech', 'anatomy']},
-    {'name': 'Math', 'keywords': ['math', 'mathematics', 'calculus', 'algebra', 'statistics', 'geometry', 'multivariable calculus']},
-    {'name': 'Ela', 'keywords': ['english', 'ela', 'literature', 'composition', 'creative writing', 'public speaking', 'publications', 'mythology']},
-    {'name': 'Photography/Videography', 'keywords': ['photography', 'videography', 'film', 'tv studio']},
-    {'name': 'Robotics', 'keywords': ['robotics']},
-    {'name': 'History', 'keywords': ['history', 'us government', 'politics', 'macroeconomics']},
-    {'name': 'Art', 'keywords': ['art', 'drawing', 'painting', 'sculpture', 'fashion', 'design']},
-    {'name': 'Music', 'keywords': ['music', 'band', 'orchestra', 'ensemble', 'jazz', 'marching band', 'wind ensemble']},
-    {'name': 'Performing Arts', 'keywords': ['theater', 'theater production', 'dance', 'performing arts']},
-    {'name': 'Audio Visual (AV)', 'keywords': ['audio visual', 'av', 'video', 'film', 'tv studio', 'audio engineering', 'video engineering']}
-]
-    text = input("Input: ")
-    found_subjects = check_class_subject(text, subjects)
-    difficulty_level = check_difficulty(text)
-    grade_level = check_grade(text)
-    career_path = check_career_path(text)
-    group_work_preference = check_group_work(text)
-    classes_found = check_class(text, classes)
 
-    while 'unknown' in [found_subjects, difficulty_level, grade_level, career_path]:
-        if found_subjects == 'unknown':
-            print(f"Please provide more information about any subjects you like.")
-            text = input("Input: ")
-            found_subjects = check_class_subject(text, subjects)
-        if difficulty_level == 'unknown':
-            print(f"Please provide more information about your difficulty level.")
-            text = input("Input: ")
-            difficulty_level = check_difficulty(text)
-        if grade_level == 'unknown':
-            print(f"Please provide more information about your grade level.")
-            text = input("Input: ")
-            grade_level = check_grade(text)
-        if career_path == 'unknown':
-            print(f"Please provide more information about your career path.")
-            text = input("Input: ")
-            career_path = check_career_path(text)
-        if group_work_preference == 'unknown':
-            print(f"Please provide more information about your group work preference.")
-            text = input("Input: ")
-            group_work_preference = check_group_work(text)
-        if classes_found == 'unknown':
-            print(f"Please provide more information about any classes you like.")
-            text = input("Input: ")
-            classes_found = check_class(text, classes)
-    # Print the results
-    print("Found Subjects:", found_subjects)
-    print("Difficulty Level:", difficulty_level)
-    print("Grade Level:", grade_level)
-    print("Career Path:", career_path)
-    print("Group Work Preference:", group_work_preference)
-    print("Classes Found:", classes_found)
-check()
+subjects = [
+{'name': 'Science', 'keywords': ['science', 'biology', 'chemistry', 'physics', 'environmental science', 'forensic science', 'biotech', 'anatomy']},
+{'name': 'Math', 'keywords': ['math', 'mathematics', 'calculus', 'algebra', 'statistics', 'geometry', 'multivariable calculus']},
+{'name': 'Ela', 'keywords': ['english', 'ela', 'literature', 'composition', 'creative writing', 'public speaking', 'publications', 'mythology']},
+{'name': 'Photography/Videography', 'keywords': ['photography', 'videography', 'film', 'tv studio']},
+{'name': 'Robotics', 'keywords': ['robotics']},
+{'name': 'History', 'keywords': ['history', 'us government', 'politics', 'macroeconomics']},
+{'name': 'Art', 'keywords': ['art', 'drawing', 'painting', 'sculpture', 'fashion', 'design']},
+{'name': 'Music', 'keywords': ['music', 'band', 'orchestra', 'ensemble', 'jazz', 'marching band', 'wind ensemble']},
+{'name': 'Performing Arts', 'keywords': ['theater', 'theater production', 'dance', 'performing arts']},
+{'name': 'Audio Visual (AV)', 'keywords': ['audio visual', 'av', 'video', 'film', 'tv studio', 'audio engineering', 'video engineering']}
+]
+
+text = input("Input: ")
+found_subjects = check_class_subject(text, subjects)
+difficulty_level = check_difficulty(text)
+grade_level = check_grade(text)
+career_path = check_career_path(text)
+group_work_preference = check_group_work(text)
+classes_found = check_class(text, classes)
+while 'unknown' in [found_subjects, difficulty_level, grade_level, career_path]:
+    while found_subjects == 'unknown':
+        print(f"Please provide more information about any subjects you like.")
+        text = input("Input: ")
+        found_subjects = check_class_subject(text, subjects)
+        classes_found = check_class(text, classes)
+    while difficulty_level == 'unknown':
+        print(f"Please provide more information about your difficulty level.")
+        text = input("Input: ")
+        difficulty_level = check_difficulty(text)
+    while grade_level == 'unknown':
+        print(f"Please provide more information about your grade level.")
+        text = input("Input: ")
+        grade_level = check_grade(text)
+    while career_path == 'unknown':
+        print(f"Please provide more information about your career path.")
+        text = input("Input: ")
+        career_path = check_career_path(text)
+    while group_work_preference == 'unknown':
+        print(f"Please provide more information about your group work preference.")
+        text = input("Input: ")
+        group_work_preference = check_group_work(text)
+    while classes_found == 'unknown':
+        print(f"Please provide more information about any classes you like.")
+        text = input("Input: ")
+        classes_found = check_class(text, classes)
+# Print the results
+print("Found Subjects:", found_subjects)
+print("Difficulty Level:", difficulty_level)
+print("Grade Level:", grade_level)
+print("Career Path:", career_path)
+print("Group Work Preference:", group_work_preference)
+print("Classes Found:", classes_found)
+
+
