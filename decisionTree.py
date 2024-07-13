@@ -2,6 +2,262 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 import matplotlib.pyplot as plt
 import numpy as np
+import re
+from typing import List, Dict
+from nltk.corpus import stopwords
+from nltk import word_tokenize
+from nltk.stem import SnowballStemmer
+from nltk import ngrams
+from io import StringIO
+import csv
+
+#if some things need to be donwloaded then just go to the download and put in the whole thing as a list so it can run from the servers
+
+def check_class_subject(text: str, subjects: List[Dict[str, List[str]]]) -> List[str]:
+    found_subjects = []
+    for subject in subjects:
+        for keyword in subject['keywords']:
+            if re.search(rf'\b{re.escape(keyword)}\b', text, re.IGNORECASE):
+                found_subjects.append(subject['name'])
+                break
+    return found_subjects if found_subjects else 'unknown'
+
+def check_difficulty(text: str) -> str:
+    difficulty_keywords = {
+        'easy': ['easi', 'not hard', 'simpl'],
+        'medium': ['medium', 'moder', 'not that hard', 'intermedi'],
+        'hard': ['hard', 'difficult', 'challeng']
+    }
+    normalized_text = text.lower()
+    tokens = word_tokenize(normalized_text)
+    
+    # Generate trigrams
+    trigrams = list(ngrams(tokens, 4))
+
+    # Check for negation in trigrams
+    for trigram in trigrams:
+        if "not" in trigram or "don't" in trigram or "didn't" in trigram or "isn't" in trigram or "aren't" in trigram or "isnt" in trigram or "not" in trigram:
+            for level, keywords in difficulty_keywords.items():
+                for keyword in keywords:
+                    if re.search(rf'\b{re.escape(keyword)}\b', normalized_text):
+                        return [5, 6, 7]
+
+    # Check for difficulty levels
+    for level, keywords in difficulty_keywords.items():
+        for keyword in keywords:
+            if re.search(rf'\b{re.escape(keyword)}\b', normalized_text):
+                if level == 'easy':
+                    return [1, 2, 3, 4]
+                elif level == 'medium':
+                    return [5, 6, 7]
+                else:
+                    return [8, 9, 10]
+                
+    return "unknown"
+
+def check_grade(text: str) -> str:
+    grade_pattern = re.compile(r'\b(9th|10th|11th|12th|freshman|sophomore|junior|senior|freshmen|sophomores|juniors|seniors|sophmor|)\b', re.IGNORECASE)
+    match = grade_pattern.search(text)
+    #map all the grades to 9th 10th 11th or 12th
+    if match.group(0).lower() == "freshman":
+        return "9th"
+    elif match.group(0).lower() == "sophomore":
+        return "10th"
+    elif match.group(0).lower() == "junior":
+        return "11th"
+    elif match.group(0).lower() == "senior":
+        return "12th"
+    elif match.group(0).lower() == "freshmen":
+        return "9th"
+    elif match.group(0).lower() == "sophomor":
+        return "10th"
+    return match.group(0).lower() if match else "unknown"
+
+def check_career_path(text: str) -> List[str]:
+    career_keywords = {
+    "Law": ["law", "lawyer", "attorney", "legal"],
+    "Finance": ["financ", "bank", "account", "economic"],
+    "Medicine": ["medicine", "doctor", "physician", "medic", "health"],
+    "Software Development": ["software", "develop", "program", "code", "programmer", "code", "engin", "comput"],
+    "Teaching/Education": ["teach", "educate", "educator", "professor", "teachr", "educater", "professor"],
+    "Marketing": ["market", "advertise", "brand", "promote"],
+    "Data Science": ["data", "analyt", "comput"],
+    "Psychology": ["psychology", "psychologist", "therapist", "counsel"],
+    "Environmental Science": ["environ", "ecology", "conserve", 'biolog', 'environment'],
+    "Music Production": ["music", "produce", "audio"],
+    "Culinary Arts": ["culinary", "chef", "cook", "cuisine"],
+    "Graphic Design": ["design", "graphic"],
+    "Movie/Show Production": ["movie", "show", "film", "cinema", "television", "video"],
+    "Entrepreneur": ["entrepreneur", "entrepreneur", "startup", "enterprise"],
+    "Architecture": ["architectur", "architect", "building"]
+}
+    found_careers = []
+    for career, keywords in career_keywords.items():
+        for keyword in keywords:
+            if re.search(rf'\b{re.escape(keyword)}\b', text, re.IGNORECASE):
+                found_careers.append(career)
+                #break
+    return found_careers if found_careers else 'unknown'
+
+def check_class (text: str, subjects: List[Dict[str, List[str]]]) -> List[str]:
+    found_subjects = []
+    for subject in subjects:
+        for keyword in subject['keywords']:
+            if re.search(rf'\b{re.escape(keyword)}\b', text, re.IGNORECASE):
+                found_subjects.append(subject['name'])
+                break
+    return found_subjects if found_subjects else 'unknown'
+
+def check_group_work(text: str) -> str:
+    group_keywords = ['group', 'team', 'collab', 'together', 'collabor']
+    not_group_keywords = ['alone', 'individual', 'single', 'by myself']
+    normalized_text = text.lower()
+    tokens = word_tokenize(normalized_text)
+    
+    # Generate trigrams
+    trigrams = list(ngrams(tokens, 4))
+
+    # Check for negation in trigrams
+    for trigram in trigrams:
+        if "not" in trigram or "don't" in trigram or "didn't" in trigram or "isn't" in trigram or "aren't" in trigram or "isnt" in trigram or "not" in trigram:
+            for keywords in group_keywords:
+                for keyword in keywords:
+                    if re.search(rf'\b{re.escape(keyword)}\b', normalized_text):
+                        return "Independent"
+
+    # Check for difficulty levels
+    for level in group_keywords:
+        for keyword in level:
+            if re.search(rf'\b{re.escape(keyword)}\b', normalized_text):
+                return "Group"
+    for level in not_group_keywords:
+        for keyword in level:
+            if re.search(rf'\b{re.escape(keyword)}\b', normalized_text):
+                return "Independent"
+                
+    return "unknown"
+
+# Example subjects list with keywords and abbreviations
+
+# Example input text
+classes =[
+    {"name": "AP English (Language or Literature) & Composition", "keywords": ["English", "Lang", "Lit"]},
+    {"name": "AP Calculus (AB or BC)", "keywords": ["Calculus", "Calc"]},
+    {"name": "AP Statistics", "keywords": ["Stat"]},
+    {"name": "AP Biology", "keywords": ["Bio", "Biology", "biolog"]},
+    {"name": "AP Chemistry", "keywords": ["Chem"]},
+    {"name": "AP Physics (1, 2 or C)", "keywords": ["Physics"]},
+    {"name": "AP Environmental Science", "keywords": ["Environmental", "ecology", "conserve", 'biolog', 'environment', 'ecolog']},
+    {"name": "AP Psychology", "keywords": ["Psych"]},
+    {"name": "AP US Government & Politics", "keywords": ["US", "Gov", "GovPol"]},
+    {"name": "AP Macroeconomics", "keywords": ["Macro"]},
+    {"name": "AP Computer Science Principles", "keywords": ["Comp", "Sci", "Comput", "code"]},
+    {"name": "Adv. C.A.D. Civil Engineering & Architecture", "keywords": ["CAD", "Civil","Architectur"]},
+    {"name": "Advanced Computer Applications & Development", "keywords": ["Computer", "Applications", "Development"]},
+    {"name": "Adv. AV Engineering & TV Studio (1 through 3)", "keywords": ["AV", "Engineering", "TV", "Studio", "video"]},
+    {"name": "Advanced Russian", "keywords": ["Russian"]},
+    {"name": "Applied Physics", "keywords": ["Applied", "Physics"]},
+    {"name": "Behavioral & Social Science Class", "keywords": ["Behavioral", "Social"]},
+    {"name": "Biotechnology", "keywords": ["Biotech"]},
+    {"name": "Creative Writing", "keywords": ["Creative", "Writing"]},
+    {"name": "C.A.D / Civil Engineering & Architecture", "keywords": ["CAD", "Civil","Architectur"]},
+    {"name": "Career Financial Management & Entrepreneurship", "keywords": ["Financial", "Management", "Entrepreneur"]},
+    {"name": "College Russian", "keywords": ["College", "Russian"]},
+    {"name": "Concert Bands", "keywords": ["Concert", "Band"]},
+    {"name": "Chamber Music", "keywords": ["Chamber", "Music"]},
+    {"name": "Design & Fabrication (Makerspace)", "keywords": ["Design", "Fabrication", "Makerspace"]},
+    {"name": "Electronics & Green Technology", "keywords": ["Electronics", "Green", "Technology"]},
+    {"name": "Forensic Science", "keywords": ["Forensic"]},
+    {"name": "Fundamentals of Engineering", "keywords": ["Fundamental", "Engin"]},
+    {"name": "Freshmen Band", "keywords": ["Freshmen", "Band"]},
+    {"name": "Human Anatomy & Physiology", "keywords": ["Human", "Anatomy", "Physiology"]},
+    {"name": "Intro to AV Engineering & TV Studio", "keywords": ["Intro", "AV", "Engineering", "TV", "Studio"]},
+    {"name": "Jazz Ensemble", "keywords": ["Jazz", "Ensembl"]},
+    {"name": "Modern Mythology: Gods & Monsters", "keywords": ["Modern", "Mythology", "Gods", "Monsters"]},
+    {"name": "Multivariable Calculus", "keywords": ["Multivariable", "Calculus"]},
+    {"name": "Marching Band", "keywords": ["Marching", "Band"]},
+    {"name": "Publications", "keywords": ["Publication"]},
+    {"name": "Public Speaking", "keywords": ["Public", "Speaking"]},
+    {"name": "Russian for Business", "keywords": ["Russian", "Busi"]},
+    {"name": "String Ensemble", "keywords": ["String", "Ensembl"]},
+    {"name": "Symphonic Band", "keywords": ["Symphonic", "Band"]},
+    {"name": "Theater Production", "keywords": ["Theater", "Production"]},
+    {"name": "Wind Ensemble", "keywords": ["Wind", "Ensembl", "Band"]},
+    {"name": "Work Based Learning (1 or 2)", "keywords": ["Work Based", "Learning"]},
+]
+
+
+subjects = [
+    {"name": "Science", "keywords": ["scienc", "biolog", "chemistr", "physic", "environment", "forensic", "biotech", "anatom"]},
+    {"name": "Math", "keywords": ["math", "mathemat", "calcul", "algebr", "statist", "geometr", "multivariable", "data"]},
+    {"name": "Ela", "keywords": ["english", "ela", "literatur", "composit", "creativ", "public", "public", "mytholog"]},
+    {"name": "Photography/Videography", "keywords": ["photograph", "videograph", "film", "tv"]},
+    {"name": "Robotics", "keywords": ["robotic"]},
+    {"name": "History", "keywords": ["history", "govern", "polit", "macro", "histori"]},
+    {"name": "Art", "keywords": ["art", "draw", "paint", "sculptur", "fashion", "design"]},
+    {"name": "Music", "keywords": ["music", "band", "orchestr", "ensembl", "jazz", "march", "wind"]},
+    {"name": "Performing Arts", "keywords": ["theater", "product", "dance", "perform"]},
+    {"name": "Audio Visual (AV)", "keywords": ["audio", "av", "video", "film", "tv"]},
+    {"name": "Architecture", "keywords": ["architecture", "urban", "design", "cad", "civil", "architect"]},
+]
+text = input("Input: ")
+stop_words = set(stopwords.words('english'))
+stop_words.remove("not")    #get rid of "not" stop word from stop words
+def preprocess(text):
+    text = word_tokenize(text)
+    #stem the words
+    stemmer = SnowballStemmer("english")
+    text = ' '.join([stemmer.stem(word) for word in text if word not in stop_words])
+    text = text.lower()
+    print(text)
+    return text
+
+text = preprocess(text)
+found_subjects = check_class_subject(text, subjects)
+difficulty_level = check_difficulty(text)
+grade_level = check_grade(text)
+career_path = check_career_path(text)
+group_work_preference = check_group_work(text)
+classes_found = check_class(text, classes)
+while 'unknown' in [found_subjects, difficulty_level, grade_level, career_path]:
+    while found_subjects == 'unknown':
+        print(f"Please provide more information about any subjects you like.")
+        text = input("Input: ")
+        text = preprocess(text)
+        found_subjects = check_class_subject(text, subjects)
+        classes_found = check_class(text, classes)
+    #while difficulty_level == 'unknown':
+    #    print(f"Please provide more information about your difficulty level.")
+    #    text = input("Input: ")
+    #    text = preprocess(text)
+    #    difficulty_level = check_difficulty(text)
+    #while grade_level == '':
+    #    print(f"Please provide more information about your grade level.")
+    #    text = input("Input: ")
+    #    text = preprocess(text)
+    #    grade_level = check_grade(text)
+    while career_path == 'unknown':
+        print(f"Please provide more information about your career path.")
+        text = input("Input: ")
+        text = preprocess(text)
+        career_path = check_career_path(text)
+    #while group_work_preference == 'unknown':
+    #    print(f"Please provide more information about your group work preference.")
+    #    text = input("Input: ")
+    #    text = preprocess(text)
+    #    group_work_preference = check_group_work(text)
+    #while classes_found == 'unknown':
+    #    print(f"Please provide more information about any classes you like.")
+    #    text = input("Input: ")
+    #    text = preprocess(text)
+    #    classes_found = check_class(text, classes)
+# Print the results
+print("Found Subjects:", found_subjects)
+print("Difficulty Level:", difficulty_level)
+print("Grade Level:", grade_level)
+print("Career Path:", career_path)
+print("Group Work Preference:", group_work_preference)
+print("Classes Found:", classes_found)
 
 # Sample data (replace this with your actual dataset)
 df = pd.read_csv('survey.csv')
@@ -91,6 +347,16 @@ elective_map = {
     'Theater Production': 8,
     'Wind Ensemble': 11,
     'Work Based Learning (1 or 2)': 10,
+    'Work Based Learning 1': 10,
+    'Work Based Learning 2': 10,
+    'Adv. AV Engineering & TV Studio 1': 8,
+    'Adv. AV Engineering & TV Studio 2': 8,
+    'Adv. AV Engineering & TV Studio 3': 8,
+    'AP Physics 1': 3,
+    'AP Physics 2': 3,
+    'AP Physics C': 3,
+    'AP Calculus AB': 1,
+    'AP Calculus BC': 1,
 }
 # Expand rows for multiple careers
 new_df = pd.DataFrame()
@@ -106,7 +372,7 @@ subject_map = {
     'Science': 1, 'Math': 2, 'Ela': 3, 
     'Photography/Videography': 4, 'Robotics': 5, 'History': 6, 
     'Engineering': 7, 'Art': 8, 'Music': 9, 
-    'Performing Arts': 10, 'Audio Visual (AV)': 11
+    'Performing Arts': 10, 'Audio Visual (AV)': 11, "Architecture": 12
 }
 
 # Expand rows for multiple subjects
@@ -119,8 +385,15 @@ for index, row in df.iterrows():
         new_df = new_df._append(new_row, ignore_index=True)
 df = new_df
 
+features = ['subject', 'career']
+
+#if difficulty_level != "unknown":
+ #   features.append('difficulty')
+if group_work_preference != "unknown":
+    features.append('group_pref')
+
+
 # Defining features and target
-features = ['subject', 'career', 'group_pref']
 target = 'elective'
 #PLAY AROUND WITH THE FEATURES AND SEE WHAT WORKS BEST
 
@@ -147,17 +420,158 @@ reverse_learning_map = {v: k for k, v in learning_pref_map.items()}
 
 
 # Predict with the trained decision tree
-predicted_classes = dtree.predict_proba(np.array([[5, 3, 2]]))[0]
-top_n_indices = predicted_classes.argsort()[-3:][::-1]  # Top 3 classes
-top_recommended_classes = [dtree.classes_[i] for i in top_n_indices]
+for subject in found_subjects:
+    for career in career_path:
+        x = [subject_map[subject], career_map[career]]
+        if 'group_pref' in features:
+            x.append(group_pref_map[group_work_preference])
+        predicted_classes = dtree.predict_proba(np.array([x]))[0]
+        top_n_indices = predicted_classes.argsort()[-3:][::-1]  # Top 3 classes
+        top_recommended_classes = [dtree.classes_[i] for i in top_n_indices]
 
-groupResults = []
+        groupResults = []
 
-for course in top_recommended_classes:
-    #print(elective_map[course])
-    groupResults.append([c for c in reverse_elective_map[elective_map[course]]])
+        for course in top_recommended_classes:
+            #print(elective_map[course])
+            try:
+                groupResults.append([c for c in reverse_elective_map[elective_map[course]]])
+            except:
+                pass
 
-#filter out the group results based on the grade and other things that will be given using the nlp here
+#BASIC FILTERING
+
+# Load the data with UTF-8 encoding
+with open('classesTech.csv', 'r', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    data = [row for row in reader]
+
+# Example user preferences
+user_preferences = {
+    'grades': grade_level if grade_level != "" else [],
+    'subject': found_subjects,
+}
+
+def recommend_classes(preferences, data):
+    recommended_classes = []
+
+    for course in data:
+        course_name = course['class']
+        course_subject = course['subject']
+        if course_subject in preferences['subject']:
+            recommended_classes.append(course_name)
+    return recommended_classes
+
+# Call the recommend_classes function
+groupResults.append(recommend_classes(user_preferences, data))
+
+#add any classes directly stated in message
+if classes_found != "unknown":
+    for item in classes_found:
+        groupResults.append(reverse_elective_map[elective_map[item]])
+    #this may create duplicates in groupresults which will be looked for as an indicater of a good class
+
+grade_to_class = {
+    'AP English Language & Composition': [11],
+    'AP English Literature & Composition': [12],
+    'Modern Mythology: Gods & Monsters': [12],
+    'Creative Writing': [12],
+    'Publications': [12],
+    'Public Speaking': [12],
+    'AP Calculus AB': [12],
+    'AP Calculus BC': [11, 12],
+    'AP Statistics': [12],
+    'Multivariable Calculus': [12],
+    'AP Biology': [11, 12],
+    'AP Chemistry': [11, 12],
+    'AP Physics 1': [10, 11, 12],
+    'AP Physics 2': [11, 12],
+    'AP Physics C: Electricity and Magnetism': [12],
+    'AP Physics C': [12],
+    'AP Environmental Science': [11, 12],
+    'AP Psychology': [11, 12],
+    'Forensic Science': [11, 12],
+    'Biotechnology': [12],
+    'Human Anatomy & Physiology': [12],
+    'Applied Physics': [11, 12],
+    'Physics In Medicine': [10],
+    'AP US Government & Politics': [12],
+    'AP Macroeconomics': [12],
+    'Behavioral & Social Science Class': [11, 12],
+    'Intro to AV Engineering & TV Studio': [9],
+    'Computer Science & Engineering': [9],
+    'C.A.D. / Civil Engineering & Architecture': [10, 11],
+    'Electronics & Green Technology': [10, 11, 12],
+    'Adv. C.A.D. Civil Engineering & Architecture': [11, 12],
+    'Fundamentals of Engineering': [11, 12],
+    'Design & Fabrication (Makerspace)': [10, 11, 12],
+    'AP Computer Science Principles': [10, 11, 12],
+    'Advanced Computer Applications & Development': [11, 12],
+    'Adv. AV Engineering & TV Studio 1': [10, 11, 12],
+    'Adv. AV Engineering & TV Studio 2/3': [11, 12],
+    'Career Financial Management & Entrepreneurship': [10, 11, 12],
+    'Work Based Learning 1': [11, 12],
+    'Work Based Learning 2': [12],
+    'Advanced Russian': [10, 11],
+    'College Russian': [12],
+    'Russian for Business': [12],
+    'Freshmen Band': [9],
+    'Concert Bands': [10],
+    'Symphonic Band': [11, 12],
+    'Wind Ensemble': [10, 11, 12],
+    'Jazz Ensemble': [9, 10, 11, 12],
+    'String Ensemble': [9, 10, 11, 12],
+    'Marching Band': [10, 11, 12],
+    'Chamber Music': [9, 10, 11, 12],
+    'Theater Production': [11, 12],
+    'Fitness': [10, 11, 12],
+    'Basketball': [10, 11, 12],
+    'Badminton': [10, 11, 12],
+    'Dance': [10, 11, 12],
+    'Table Tennis': [10, 11, 12],
+    'Volleyball': [10, 11, 12],
+    'Volleyball Advanced': [10, 11, 12],
+    'Weight Training': [10, 11, 12],
+    'Team Physical Education': [10, 11, 12],
+    'AP Calculus (AB or BC)': [0],
+    'AP Physics (1, 2 or C)': [0],
+    'Adv. AV Engineering & TV Studio (1 through 3)': [0],
+    'Work Based Learning (1 or 2)': [0],
+}
+
+#this peice of code runs at the end for more accuracy
+if user_preferences['grades'] != '':
+    if user_preferences['grades'] == '9th':
+        user_preferences['grades'] = 9
+    elif user_preferences['grades'] == '10th':
+        user_preferences['grades'] = 10
+    elif user_preferences['grades'] == '11th':
+        user_preferences['grades'] = 11
+    elif user_preferences['grades'] == '12th':
+        user_preferences['grades'] = 12
+    #check all items in groupResults for the grade level and filter out the ones that don't match by checking rows in classesTech
+    postFinalResults = []
+    for item in groupResults:
+        for course in item:
+            if user_preferences['grades'] != []:
+                if user_preferences['grades'] in grade_to_class[course]:
+                    postFinalResults.append(course)
+                else:
+                    print(f'Removed {course} from results')
+                    pass
+            else:
+                postFinalResults.append(course)
+
+#get rid of duplicates in group results and get count of results
+strongly_suggested = []
+Final_results = []
+for course in postFinalResults:
+    if postFinalResults.count(course) > 1:
+        strongly_suggested.append(course) if course not in strongly_suggested else None
+    else:
+        Final_results.append(course) if course not in Final_results and course not in strongly_suggested else None
+
+#get the top 5 most popular classes
+most_popular = sorted(strongly_suggested, key=strongly_suggested.count, reverse=True)[0:5]
 
 #map all the reverse maps
 df['subject'] = df['subject'].map(reverse_subject_map)
@@ -166,10 +580,13 @@ df['group_pref'] = df['group_pref'].map(reverse_group_map)
 df['learning_pref'] = df['learning_pref'].map(reverse_learning_map)
 
 #print(df)
-print("Top 3 Recommended Classes:", top_recommended_classes)
-
+#print("Top 3 Recommended Classes:", top_recommended_classes)
+print("Suggested Classes:", Final_results)
+print("Strongly Suggested Classes:", strongly_suggested)
+print("Most Suggested Classes:", most_popular)
 # Visualize the decision tree using matplotlib
 plt.figure(figsize=(20,10), dpi=500)
 plot_tree(dtree, feature_names=features, class_names=list(elective_map.keys()), filled=True, max_depth=5)
 plt.savefig("decision_tree.png", bbox_inches="tight")  # Save to file
+
 

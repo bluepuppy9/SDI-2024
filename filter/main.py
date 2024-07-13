@@ -8,7 +8,6 @@ with open('classesTech.csv', 'r', encoding='utf-8') as f:
 # Example user preferences
 user_preferences = {
     'grades': [9],
-    'avoid_classes': ['']
 }
 
 def recommend_classes(preferences, data):
@@ -18,8 +17,7 @@ def recommend_classes(preferences, data):
         course_name = course['class']
         course_grades = [int(grade) for grade in course['grades'].split(', ')]
         if any(grade in preferences['grades'] for grade in course_grades):
-            if course_name not in preferences['avoid_classes']:
-                recommended_classes.append(course_name)
+            recommended_classes.append(course_name)
     return recommended_classes
 
 # Call the recommend_classes function
