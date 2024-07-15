@@ -57,6 +57,8 @@ def check_difficulty(text: str) -> str:
 def check_grade(text: str) -> str:
     grade_pattern = re.compile(r'\b(9th|10th|11th|12th|freshman|sophomore|junior|senior|freshmen|sophomores|juniors|seniors|sophmor|sophomor)\b', re.IGNORECASE)
     match = grade_pattern.search(text)
+    if match is None:
+        return "unknown"
     #map all the grades to 9th 10th 11th or 12th
     if match.group(0).lower() == "freshman":
         return "9th"
