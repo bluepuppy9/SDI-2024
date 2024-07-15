@@ -27,6 +27,9 @@ def check_difficulty(text: str) -> str:
         'medium': ['medium', 'moder', 'not that hard', 'intermedi'],
         'hard': ['hard', 'difficult', 'challeng'],
     }
+    for item in difficulty_keywords.values():
+        stemmer = SnowballStemmer("english")
+        item = [stemmer.stem(word) for word in item]
     normalized_text = text.lower()
     tokens = word_tokenize(normalized_text)
     
@@ -94,6 +97,9 @@ def check_career_path(text: str) -> List[str]:
     "Entrepreneur": ["entrepreneur", "entrepreneur", "startup", "enterprise"],
     "Architecture": ["architectur", "architect", "building"]
 }
+    for item in career_keywords.values():
+        stemmer = SnowballStemmer("english")
+        item = [stemmer.stem(word) for word in item]
     found_careers = []
     for career, keywords in career_keywords.items():
         for keyword in keywords:
@@ -114,6 +120,12 @@ def check_class (text: str, subjects: List[Dict[str, List[str]]]) -> List[str]:
 def check_group_work(text: str) -> str:
     group_keywords = ['group', 'team', 'collab', 'together', 'collabor']
     not_group_keywords = ['alone', 'individual', 'single', 'by myself']
+    for item in group_keywords:
+        stemmer = SnowballStemmer("english")
+        item= (stemmer.stem(word) for word in item)
+    for item in not_group_keywords:
+        stemmer = SnowballStemmer("english")
+        item = (stemmer.stem(word) for word in item)
     normalized_text = text.lower()
     tokens = word_tokenize(normalized_text)
     
@@ -168,7 +180,7 @@ classes =[
     {"name": "College Russian", "keywords": ["College", "Russian"]},
     {"name": "Concert Bands", "keywords": ["Concert", "Band"]},
     {"name": "Chamber Music", "keywords": ["Chamber", "Music"]},
-    {"name": "Design & Fabrication (Makerspace)", "keywords": ["Design", "Fabrication", "Makerspace"]},
+    {"name": "Design & Fabrication (Makerspace)", "keywords": ["Design", "Fabrication", "Makerspace", "creative"]},
     {"name": "Electronics & Green Technology", "keywords": ["Electronics", "Green", "Technology"]},
     {"name": "Forensic Science", "keywords": ["Forensic"]},
     {"name": "Fundamentals of Engineering", "keywords": ["Fundamental", "Engin"]},
@@ -215,6 +227,12 @@ def preprocess(text):
     print(text)
     return text
 
+for item in subjects:
+    stemmer = SnowballStemmer("english")
+    item["keywords"] = [stemmer.stem(word) for word in item["keywords"]]
+for item in classes:
+    stemmer = SnowballStemmer("english")
+    item["keywords"] = [stemmer.stem(word) for word in item["keywords"]]
 text = preprocess(text)
 found_subjects = check_class_subject(text, subjects)
 difficulty_level = check_difficulty(text)
