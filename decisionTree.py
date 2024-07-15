@@ -8,7 +8,6 @@ from nltk.corpus import stopwords
 from nltk import word_tokenize
 from nltk.stem import SnowballStemmer
 from nltk import ngrams
-from io import StringIO
 import csv
 
 #if some things need to be donwloaded then just go to the download and put in the whole thing as a list so it can run from the servers
@@ -26,7 +25,7 @@ def check_difficulty(text: str) -> str:
     difficulty_keywords = {
         'easy': ['easi', 'not hard', 'simpl'],
         'medium': ['medium', 'moder', 'not that hard', 'intermedi'],
-        'hard': ['hard', 'difficult', 'challeng']
+        'hard': ['hard', 'difficult', 'challeng'],
     }
     normalized_text = text.lower()
     tokens = word_tokenize(normalized_text)
@@ -49,14 +48,14 @@ def check_difficulty(text: str) -> str:
                 if level == 'easy':
                     return [1, 2, 3, 4]
                 elif level == 'medium':
-                    return [5, 6, 7]
+                    return [4, 5, 6, 7]
                 else:
-                    return [8, 9, 10]
+                    return [7, 8, 9, 10]
                 
     return "unknown"
 
 def check_grade(text: str) -> str:
-    grade_pattern = re.compile(r'\b(9th|10th|11th|12th|freshman|sophomore|junior|senior|freshmen|sophomores|juniors|seniors|sophmor|)\b', re.IGNORECASE)
+    grade_pattern = re.compile(r'\b(9th|10th|11th|12th|freshman|sophomore|junior|senior|freshmen|sophomores|juniors|seniors|sophmor|sophomor)\b', re.IGNORECASE)
     match = grade_pattern.search(text)
     #map all the grades to 9th 10th 11th or 12th
     if match.group(0).lower() == "freshman":
@@ -69,6 +68,8 @@ def check_grade(text: str) -> str:
         return "12th"
     elif match.group(0).lower() == "freshmen":
         return "9th"
+    elif match.group(0).lower() == "sophmor":
+        return "10th"
     elif match.group(0).lower() == "sophomor":
         return "10th"
     return match.group(0).lower() if match else "unknown"
@@ -84,7 +85,7 @@ def check_career_path(text: str) -> List[str]:
     "Data Science": ["data", "analyt", "comput"],
     "Psychology": ["psychology", "psychologist", "therapist", "counsel"],
     "Environmental Science": ["environ", "ecology", "conserve", 'biolog', 'environment'],
-    "Music Production": ["music", "produce", "audio"],
+    "Music Production": ["music", "produce", "audio", "produc", "Product", "produced"],
     "Culinary Arts": ["culinary", "chef", "cook", "cuisine"],
     "Graphic Design": ["design", "graphic"],
     "Movie/Show Production": ["movie", "show", "film", "cinema", "television", "video"],
@@ -183,7 +184,7 @@ classes =[
     {"name": "Symphonic Band", "keywords": ["Symphonic", "Band"]},
     {"name": "Theater Production", "keywords": ["Theater", "Production"]},
     {"name": "Wind Ensemble", "keywords": ["Wind", "Ensembl", "Band"]},
-    {"name": "Work Based Learning (1 or 2)", "keywords": ["Work Based", "Learning"]},
+    {"name": "Work Based Learning (1 or 2)", "keywords": ["Work Based", "Learning", "Learn"]},
 ]
 
 
@@ -439,6 +440,7 @@ for subject in found_subjects:
                 pass
 
 #BASIC FILTERING
+print("Results from decision tree:",groupResults)
 
 # Load the data with UTF-8 encoding
 with open('classesTech.csv', 'r', encoding='utf-8') as f:
@@ -449,6 +451,7 @@ with open('classesTech.csv', 'r', encoding='utf-8') as f:
 user_preferences = {
     'grades': grade_level if grade_level != "" else [],
     'subject': found_subjects,
+    'difficulty': difficulty_level if difficulty_level != "" and difficulty_level != "unknown" else [],
 }
 
 def recommend_classes(preferences, data):
@@ -535,8 +538,67 @@ grade_to_class = {
     'AP Calculus (AB or BC)': [0],
     'AP Physics (1, 2 or C)': [0],
     'Adv. AV Engineering & TV Studio (1 through 3)': [0],
+    'Adv. AV Engineering & TV Studio 1': [10, 11, 12],
+    'Adv. AV Engineering & TV Studio 2': [11, 12],
+    'Adv. AV Engineering & TV Studio 3': [11, 12],
+    'Adv. AV Engineering & TV Studio 2/3': [11, 12],
     'Work Based Learning (1 or 2)': [0],
 }
+
+classes_to_difficulty = {
+    'AP English Language & Composition': [7, 8, 9, 10],
+    'AP English Literature & Composition': [7, 8, 9, 10],
+    'Modern Mythology: Gods & Monsters': [4, 5, 6, 7],
+    'Creative Writing': [3, 4, 5, 6],
+    'Publications': [5, 6, 7, 8],
+    'Public Speaking': [4, 5, 6, 7],
+    'AP Calculus AB': [8, 9, 10, 10],
+    'AP Calculus BC': [8, 9, 10, 10],
+    'AP Statistics': [7, 8, 9, 10],
+    'Multivariable Calculus': [8, 9, 10, 10],
+    'AP Biology': [7, 8, 9, 10],
+    'AP Chemistry': [7, 8, 9, 10],
+    'AP Physics 1': [6, 7, 8, 9],
+    'AP Physics 2': [7, 8, 9, 10],
+    'AP Physics C: Electricity and Magnetism': [8, 9, 10, 10],
+    'AP Environmental Science': [6, 7, 8, 9],
+    'AP Psychology': [5, 6, 7, 8],
+    'Forensic Science': [4, 5, 6, 7],
+    'Biotechnology': [5, 6, 7, 8],
+    'Human Anatomy & Physiology': [6, 7, 8, 9],
+    'Applied Physics': [5, 6, 7, 8],
+    'Physics In Medicine': [5, 6, 7, 8],
+    'AP US Government & Politics': [6, 7, 8, 9],
+    'AP Macroeconomics': [6, 7, 8, 9],
+    'Behavioral & Social Science Class': [5, 6, 7, 8],
+    'Intro to AV Engineering & TV Studio': [2, 3, 4, 5],
+    'Computer Science & Engineering': [3, 4, 5, 6],
+    'C.A.D. / Civil Engineering & Architecture': [4, 5, 6, 7],
+    'Electronics & Green Technology': [5, 6, 7, 8],
+    'Adv. C.A.D. Civil Engineering & Architecture': [6, 7, 8, 9],
+    'Fundamentals of Engineering': [5, 6, 7, 8],
+    'Design & Fabrication (Makerspace)': [4, 5, 6, 7],
+    'AP Computer Science Principles': [6, 7, 8, 9],
+    'Advanced Computer Applications & Development': [6, 7, 8, 9],
+    'Adv. AV Engineering & TV Studio 1': [5, 6, 7, 8],
+    'Adv. AV Engineering & TV Studio 2/3': [6, 7, 8, 9],
+    'Career Financial Management & Entrepreneurship': [4, 5, 6, 7],
+    'Work Based Learning 1': [5, 6, 7, 8],
+    'Work Based Learning 2': [5, 6, 7, 8],
+    'Advanced Russian': [6, 7, 8, 9],
+    'College Russian': [6, 7, 8, 9],
+    'Russian for Business': [5, 6, 7, 8],
+    'Freshmen Band': [2, 3, 4, 5],
+    'Concert Bands': [3, 4, 5, 6],
+    'Symphonic Band': [4, 5, 6, 7],
+    'Wind Ensemble': [5, 6, 7, 8],
+    'Jazz Ensemble': [4, 5, 6, 7],
+    'String Ensemble': [3, 4, 5, 6],
+    'Marching Band': [4, 5, 6, 7],
+    'Chamber Music': [3, 4, 5, 6],
+    'Theater Production': [5, 6, 7, 8],
+}
+
 
 #this peice of code runs at the end for more accuracy
 if user_preferences['grades'] != '':
@@ -552,14 +614,17 @@ if user_preferences['grades'] != '':
     postFinalResults = []
     for item in groupResults:
         for course in item:
-            if user_preferences['grades'] != []:
-                if user_preferences['grades'] in grade_to_class[course]:
-                    postFinalResults.append(course)
+            try:
+                if user_preferences['grades'] != []:
+                    if user_preferences['grades'] in grade_to_class[course]:
+                        postFinalResults.append(course)
+                    else:
+                        print(f'Removed {course} from results')
+                        pass
                 else:
-                    print(f'Removed {course} from results')
-                    pass
-            else:
-                postFinalResults.append(course)
+                    postFinalResults.append(course)
+            except:
+                pass
 
 #get rid of duplicates in group results and get count of results
 strongly_suggested = []
@@ -572,6 +637,34 @@ for course in postFinalResults:
 
 #get the top 5 most popular classes
 most_popular = sorted(strongly_suggested, key=strongly_suggested.count, reverse=True)[0:5]
+for item in most_popular:
+    if item in strongly_suggested:
+        strongly_suggested.remove(item)
+
+#filters through most suggested and strongly suggested and if difficluty is not matched removes
+#if removed from most suggested or strongly suggested, item will be added to final results
+if user_preferences['difficulty']:
+    for item in most_popular:
+        for course in item:
+            try:
+                for difficulty in user_preferences['difficulty']:
+                    if difficulty not in classes_to_difficulty[course]:
+                        print(f'Removed {course} from results')
+                        most_popular.remove(course)
+                        Final_results.append(course)
+            except:
+                pass
+if user_preferences['difficulty']:
+    for item in strongly_suggested:
+        for course in item:
+            try:
+                for difficulty in user_preferences['difficulty']:
+                    if difficulty not in classes_to_difficulty[course]:
+                        print(f'Removed {course} from results')
+                        strongly_suggested.remove(course)
+                        Final_results.append(course)
+            except:
+                pass
 
 #map all the reverse maps
 df['subject'] = df['subject'].map(reverse_subject_map)
