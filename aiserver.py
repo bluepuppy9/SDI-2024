@@ -10,10 +10,10 @@ CORS(app)
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json.get('message').lower()
+    #user_input = request.json.get('message').lower()
     message = ''
-    for part in generate('llama3', user_input, stream=True):
-        message += part['response']
+    #for part in generate('llama3', user_input, stream=True):
+    #    message += part['response']
     #return jsonify({'response': "the mitocondira is actually the powerhouse of the cell"})
     #return jsonify({'response': f"{user_input} for real"})
     return jsonify({'response': message})
