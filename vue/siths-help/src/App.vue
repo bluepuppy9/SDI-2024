@@ -1,12 +1,34 @@
 <template>
-  <!--
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  -->
+  <div class="container" style="padding: 50px 0 100px 0">
+    <Account v-if="session" :session="session" />
+    <Auth v-else />
+  </div>
   <router-view/>
 </template>
+
+<script async setup>
+import { onMounted, ref } from 'vue'
+import Account from './components/Account.vue'
+import Auth from './components/Auth.vue'
+import { supabase } from './lib/supabaseClient'
+import { useStore } from './stores/store'
+
+const session = ref()
+
+onMounted(() => {
+  supabase.auth.getSession().then(({ data }) => {
+    session.value = data.session
+  })
+
+  supabase.auth.onAuthStateChange((_, _session) => {
+    session.value = _session
+  })
+})
+const store = useStore()
+await store.getClasses()
+console.log(store.classes[0].username)
+
+</script>
 
 <style>
 body {
